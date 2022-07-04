@@ -10,10 +10,9 @@
       <form class="p-3 mt-3">
           <div class="form-field d-flex align-items-center">
               <span class="far fa-user"></span>
-              <input type="text" name="idUsuario" id="idUsuario" placeholder="ID">
-              <!-- v-model="idUsuario" -->
+              <input type="text" name="idUsuario" v-model="idUsuario" id="idUsuario" placeholder="ID">
           </div>
-          <button class="btn mt-3">Login</button>
+          <button class="btn mt-3" @click="enter">Login</button>
       </form>
     </div>
   </div>
@@ -23,9 +22,28 @@
 
 export default {
   name: 'Login',
-  components: {
-    
+  data() {
+    return {
+      idUsuario: "",
+    };
   },
+  methods: {
+    enter() {
+      if (this.idUsuario.trim() === "") {
+        this.$toast.error("Error! el campo no debe estar vacío");
+      } else {
+        if (this.idUsuario.length > 10) {
+          this.$toast.error(
+            "Error! El ID de usuario no debe contener más de 10 caracteres"
+          );
+        } else {
+          this.$store.commit("modificarIdUsuario", this.idUsuario);
+          this.$store.commit("cargarTransacciones");
+          this.$router.push("/compraVenta");
+        }
+      }
+    }
+  }
 };
 </script>
 
@@ -97,6 +115,8 @@ export default {
     box-shadow: 3px 3px 3px #b1b1b1,
         -3px -3px 3px #fff;
     letter-spacing: 1.3px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
   }
 
   .wrapper .btn:hover {

@@ -36,6 +36,18 @@
   background-size: cover;
   z-index: 0;
 }
+/* .body {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  width: auto;
+  height: auto;
+  background-image: url("./assets/matxcoin.png");
+  background-size: cover;
+  z-index: 0;
+} */
 
 nav {
   padding: 30px;

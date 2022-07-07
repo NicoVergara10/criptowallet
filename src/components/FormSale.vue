@@ -5,12 +5,12 @@
                 <label for="standard-select">VENTA CRIPTOMONEDAS</label>
                 <div class="select">
                     <select id="standard-select">
-                        <option value="Option 0"></option>
-                        <option value="Option 1">BITCOIN</option>
-                        <option value="Option 2">ETHEREUM</option>
-                        <option value="Option 3">THETER</option>
-                        <option value="Option 4">USD COIN</option>
-                        <option value="Option 5">BINANCE USD</option>
+                        <option value="cript0"></option>
+                        <option value="cript1">BITCOIN</option>
+                        <option value="cript2">ETHEREUM</option>
+                        <option value="cript3">THETER</option>
+                        <option value="cript4">USD COIN</option>
+                        <option value="cript5">BINANCE USD</option>
                     </select>
                 </div>
             </div>
@@ -23,12 +23,31 @@
             <div class="pagoVenta">
                 <input type="number" id="amount" name="amount" placeholder="IMPORTE $" required>
             </div>
+            <button class="btn" type="button">VENDER</button>
         </form>
     </div>
 </template>
 
 <script>
-
+    import ClientApi  from "@/services/ClientApi";
+    export default {
+        name: "FormSale",
+        data() {
+            return {
+                newSale: {
+                    user_id: this.$store.state.idUser,
+                    action: "buy",
+                    crypto_code: "cript0",
+                    crypto_amount: "",
+                    money: "",
+                    datetime: ""
+                },
+            };
+        },
+        methods: {
+            
+        }
+    }
 </script>
 
 <style>

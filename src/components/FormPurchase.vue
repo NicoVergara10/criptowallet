@@ -5,12 +5,12 @@
                 <label for="standard-select">COMPRA CRIPTOMONEDAS</label>
                 <div class="select">
                     <select id="standard-select">
-                        <option value="Option 0"></option>
-                        <option value="Option 1">BITCOIN</option>
-                        <option value="Option 2">ETHEREUM</option>
-                        <option value="Option 3">THETER</option>
-                        <option value="Option 4">USD COIN</option>
-                        <option value="Option 5">BINANCE USD</option>
+                        <option value="cript0"></option>
+                        <option value="cript1">BITCOIN</option>
+                        <option value="cript2">ETHEREUM</option>
+                        <option value="cript3">THETER</option>
+                        <option value="cript4">USD COIN</option>
+                        <option value="cript5">BINANCE USD</option>
                     </select>
                 </div>
             </div>
@@ -23,6 +23,7 @@
             <div class="pagoCompra">
                 <input type="number" id="amount" name="amount" placeholder="IMPORTE $" required>
             </div>
+            <button class="btn" type="button" >COPRAR</button>
         </form>
     </div>
 </template>

@@ -13,8 +13,8 @@ export default {
         return clienteAPI.get(`/transactions/${id}`);
     },
 
-    ingresarNuevaTransaccion(nuevaTransaccion) {
-        return clienteAPI.post("/transactions", nuevaTransaccion);
+    newTransaction(newSale) {
+        return clienteAPI.post("/transactions", newSale);
     },
     modificarTransaccion(id, transaccionEditada) {
         return clienteAPI.put(`/transactions/${id}`, transaccionEditada);

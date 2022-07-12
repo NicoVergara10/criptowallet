@@ -12,9 +12,8 @@ export default {
     getTransaccionesById(id) {
         return clienteAPI.get(`/transactions/${id}`);
     },
-
-    newTransaction(newSale) {
-        return clienteAPI.post("/transactions", newSale);
+    newTransaction(buySale) {
+        return clienteAPI.post("/transactions", buySale);
     },
     modificarTransaccion(id, transaccionEditada) {
         return clienteAPI.put(`/transactions/${id}`, transaccionEditada);

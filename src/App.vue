@@ -2,12 +2,19 @@
   <div>
     <nav>
       <router-link to="/">Login</router-link> |
+      <router-link to="/transactions">Compra-Venta</router-link>
       <router-link to="/about">About</router-link>
     </nav>
     <router-view></router-view>
   </div>
 </template>
-
+<script>
+  export default  {
+    data() {
+      return {};
+    }
+  }
+</script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
   * {
@@ -36,7 +43,7 @@
   background-size: cover;
   z-index: 0;
 }
-/* .body {
+.body {
   position: absolute;
   top: 0px;
   left: 0px;
@@ -47,7 +54,7 @@
   background-image: url("./assets/matxcoin.png");
   background-size: cover;
   z-index: 0;
-} */
+}
 
 nav {
   padding: 30px;

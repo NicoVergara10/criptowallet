@@ -39,7 +39,7 @@ export default {
         } else {
           this.$store.commit("modificarIdUsuario", this.idUser);
           this.$store.commit("cargarTransacciones");
-          this.$router.push("/compraVenta");
+          this.$router.push("/transactions");
         }
       }
     }

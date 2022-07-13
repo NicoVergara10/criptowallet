@@ -22,7 +22,7 @@
             <div class="fechaCompra">
                 <input type="datetime-local" id="timeHour" name="timeHour" v-model="buySale.datetime" required>
             </div>
-            <button class="btn" type="button" @click="buyCripto">COPRAR</button>
+            <button class="btn" type="button" @click="buyCripto">COMPRAR</button>
         </form>
     </div>
 </template>
@@ -72,5 +72,31 @@
 </script>
 
 <style scoped>
-    
+     .purchase input {
+        width: 100%;
+        display: block;
+        border: none;
+        outline: none;
+        background: none;
+        font-size: 1.2rem;
+        color: #666;
+        padding: 10px 15px 15px 10px;
+        padding-left: 20px;
+        margin-bottom: 25px;
+        border-radius: 15px;
+        box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff;
+    }
+    .btn {
+        box-shadow: none;
+        width: 100%;
+        height: 40px;
+        background-color: #0a70a0;
+        color: #fff;
+        border-radius: 25px;
+        box-shadow: 3px 3px 3px #b1b1b1,
+            -3px -3px 3px #fff;
+        letter-spacing: 1.3px;
+        cursor: pointer;
+        transition: background 0.3s ease-in-out;
+    }
 </style>

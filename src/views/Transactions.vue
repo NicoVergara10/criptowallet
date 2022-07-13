@@ -8,7 +8,9 @@
         </div>
         <div class="btnS">
             <h2>VENDER CRIPTOS</h2>
-            <FormSale />
+            <div class="fom">
+                <FormSale />
+            </div>
         </div>
     </div>
 </template>
@@ -41,9 +43,6 @@
         border-radius: 15px;
         box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
         background: #14ecf3;
-        position: relative;
-        cursor: pointer;
-        overflow: hidden;
     }
     .btnS {
         max-width: 350px;
@@ -54,8 +53,5 @@
         border-radius: 15px;
         box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
         background: #14f3ec;
-        position: relative;
-        cursor: pointer;
-        overflow: hidden;
     }
 </style>

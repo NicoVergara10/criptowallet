@@ -39,14 +39,14 @@
                     crypto_code: "cript0",
                     crypto_amount: "",
                     money: "",
-                    datetime: ""
+                    datetime: "",
                 },
             };
         },
         methods: {
             saleCripto(){
                 if(this.buySale.crypto_amount === "") {
-                    this.$toast.error("El campo no debe estar vacío");
+                    this.$toast.error("Ingrese la cantidad a vender");
                 }else if(!parseFloat(this.buySale.crypto_amount)) {
                     this.$toast.error("Debe ingresar un valor numérico");
                 }else if(parseFloat(this.buySale.crypto_amount) <= 0) {
@@ -58,7 +58,7 @@
                 }else if(parseFloat(this.buySale.money) <= 0) {
                     this.$toast.error("El monto a ingresar debe ser mayor a 0");
                 }else if(this.buySale.datetime === "") {
-                    this.$toast.error("El campo no debe estar vacío");
+                    this.$toast.error("Debe ingresar la fecha y la hora de la venta");
                 }else {
                     ClientApi.newTransaction(this.buySale)
                     .then(() => {this.$toast.info("Venta realizada con Éxito");})
@@ -72,5 +72,31 @@
 </script>
 
 <style scoped>
-    
+    .sale input{
+        width: 100%;
+        display: block;
+        border: none;
+        outline: none;
+        background: none;
+        font-size: 1.2rem;
+        color: #666;
+        padding: 10px 15px 15px 10px;
+        padding-left: 20px;
+        margin-bottom: 25px;
+        border-radius: 15px;
+        box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff;
+    }
+    .btn {
+        box-shadow: none;
+        width: 100%;
+        height: 40px;
+        background-color: #0a70a0;
+        color: #fff;
+        border-radius: 25px;
+        box-shadow: 3px 3px 3px #b1b1b1,
+            -3px -3px 3px #fff;
+        letter-spacing: 1.3px;
+        cursor: pointer;
+        transition: background 0.3s ease-in-out;
+    }
 </style>

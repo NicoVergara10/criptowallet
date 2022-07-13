@@ -25,6 +25,11 @@
         data() {
             return {};
         },
+        // methods: {
+        //     history: function() {
+        //         this.$router.push("/history");
+        //     },
+        // },
     }
 </script>
 

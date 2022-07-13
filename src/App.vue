@@ -3,6 +3,7 @@
     <nav>
       <router-link to="/">Login</router-link> |
       <router-link to="/transactions">Compra-Venta</router-link>
+      <router-link to="/history">Historial</router-link>
       <router-link to="/about">About</router-link>
     </nav>
     <router-view></router-view>
@@ -17,12 +18,12 @@
 </script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

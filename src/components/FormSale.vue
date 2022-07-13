@@ -4,13 +4,14 @@
             <div class="criptos">
                 <div class="select">
                     <select id="standard-select" v-model="buySale.crypto_code" required>
-                        <option value="cript0"></option>
-                        <option value="cript1">BITCOIN</option>
-                        <option value="cript2">ETHEREUM</option>
-                        <option value="cript3">THETER</option>
-                        <option value="cript4">USD COIN</option>
-                        <option value="cript5">BINANCE USD</option>
+                        <option value="">CRIPTOMONEDA</option>
+                        <option value="bitcoin">BITCOIN</option>
+                        <option value="ethereum">ETHEREUM</option>
+                        <option value="theter">THETER</option>
+                        <option value="usdc">USD COIN</option>
+                        <option value="binance">BINANCE USD</option>
                     </select>
+                    <i></i>
                 </div>
             </div>
             <div class="cantVenta">
@@ -36,7 +37,7 @@
                 buySale: {
                     user_id: this.$store.state.idUser,
                     action: "sale",
-                    crypto_code: "cript0",
+                    crypto_code: "",
                     crypto_amount: "",
                     money: "",
                     datetime: "",
@@ -59,6 +60,8 @@
                     this.$toast.error("El monto a ingresar debe ser mayor a 0");
                 }else if(this.buySale.datetime === "") {
                     this.$toast.error("Debe ingresar la fecha y la hora de la venta");
+                }else if(this.buySale.crypto_code === "") {
+                    this.$toast.error("Debe seleccionar una criptomoneda");
                 }else {
                     ClientApi.newTransaction(this.buySale)
                     .then(() => {this.$toast.info("Venta realizada con Éxito");})
@@ -72,6 +75,57 @@
 </script>
 
 <style scoped>
+    .select select {
+        appearance: none;
+	    -webkit-appearance: none;
+	    -moz-appearance: none;
+    }
+    .select select::-ms-expand {
+        display: none;
+    }
+    .select {
+        width: 100%;
+	    position: relative;
+    }
+    .select select {
+        display: inline-block;
+        width: 100%;
+        cursor: pointer;
+        padding: 7px 10px;
+        padding-left: 20px;
+        margin-bottom: 25px;
+        height: 42px;
+        outline: 0; 
+        border: 0;
+        border-radius: 0;
+        background: #f0f0f0;
+        color: #7b7b7b;
+        font-size: 1em;
+        color: #999;
+        font-family: 
+        'Quicksand', sans-serif;
+        border:2px solid rgba(0,0,0,0.2);
+        border-radius: 12px;
+        transition: all 0.25s ease;
+    }
+    .select select:hover {
+	    background: #B1E8CD;
+    }
+    .select i{
+        position: absolute;
+        right: 20px;
+        top: calc(50% - 26px);
+        width: 16px;
+        height: 16px;
+        display: block;
+        border-left:4px solid #2AC176;
+        border-bottom:4px solid #2AC176;
+        transform: rotate(-45deg); /* Giramos el cuadrado */
+        transition: all 0.25s ease;
+    }
+    .select:hover i{
+        margin-top: 3px;
+    }
     .sale input{
         width: 100%;
         display: block;

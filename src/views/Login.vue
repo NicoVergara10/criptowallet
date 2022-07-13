@@ -12,7 +12,7 @@
               <span class="far fa-user"></span>
               <input type="text" name="idUsuario" v-model="idUser" id="idUsuario" placeholder="ID">
           </div>
-          <button class="btn mt-3" @click="enter">Login</button>
+          <button class="btn mt-3" @click="enter">LOGIN</button>
       </form>
     </div>
   </div>
@@ -84,24 +84,20 @@ export default {
   }
 
   .wrapper .form-field input {
-    width: 100%;
-    display: block;
-    border: none;
-    outline: none;
-    background: none;
-    font-size: 1.2rem;
-    color: #666;
-    padding: 10px 15px 15px 10px;
+   width: 100%;
+      display: block;
+      border: none;
+      outline: none;
+      background: none;
+      font-size: 1.2rem;
+      color: #666;
+      padding: 10px 15px 15px 10px;
+      padding-left: 20px;
+      margin-bottom: 25px;
+      border-radius: 15px;
+      box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff;
   }
-
-  .wrapper .form-field {
-    padding-left: 10px;
-    margin-bottom: 20px;
-    border-radius: 20px;
-    box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff;
-  }
-
-  .wrapper .form-field .fas {
+  .wrapper .form-field .far {
     color: #555;
   }
 

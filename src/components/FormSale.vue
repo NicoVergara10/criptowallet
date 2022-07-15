@@ -23,7 +23,7 @@
             <div class="fechaVenta">
                 <input type="datetime-local" id="timeHour" name="timeHour" v-model="buySale.datetime" required>
             </div>
-            <button class="btn" type="button" @click="saleCripto">VENDER</button>
+            <button class="btn" type="submit" @click.prevent="saleCripto">VENDER</button>
         </form>
     </div>
 </template>
@@ -120,7 +120,7 @@
         display: block;
         border-left:4px solid #2AC176;
         border-bottom:4px solid #2AC176;
-        transform: rotate(-45deg); /* Giramos el cuadrado */
+        transform: rotate(-45deg);
         transition: all 0.25s ease;
     }
     .select:hover i{

@@ -25,12 +25,7 @@
         data() {
             return {};
         },
-        // methods: {
-        //     history: function() {
-        //         this.$router.push("/history");
-        //     },
-        // },
-    }
+    };
 </script>
 
 <style>
@@ -39,7 +34,7 @@
         align-items: center;
         justify-content: center;
     }
-    .btnP {
+    .btnP, .btnS {
         max-width: 350px;
         min-height: 500px;
         margin: 20px 20px;
@@ -48,15 +43,5 @@
         border-radius: 15px;
         box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
         background: #14ecf3;
-    }
-    .btnS {
-        max-width: 350px;
-        min-height: 500px;
-        margin: 20px 20px;
-        padding: 40px 30px 30px 30px;
-        background-color: #ecf0f3;
-        border-radius: 15px;
-        box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
-        background: #14f3ec;
     }
 </style>

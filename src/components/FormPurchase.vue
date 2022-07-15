@@ -5,11 +5,11 @@
                 <div class="select">
                     <select id="standard-select" v-model="buySale.crypto_code">
                         <option value="">CRIPTOMONEDA</option>
-                        <option value="cript1">BITCOIN</option>
-                        <option value="cript2">ETHEREUM</option>
-                        <option value="cript3">THETER</option>
-                        <option value="cript4">USD COIN</option>
-                        <option value="cript5">BINANCE USD</option>
+                        <option value="bitcoin">BITCOIN</option>
+                        <option value="ethereum">ETHEREUM</option>
+                        <option value="theter">THETER</option>
+                        <option value="usdc">USD COIN</option>
+                        <option value="binance">BINANCE USD</option>
                     </select>
                     <i></i>
                 </div>
@@ -23,13 +23,13 @@
             <div class="fechaCompra">
                 <input type="datetime-local" id="timeHour" name="timeHour" v-model="buySale.datetime" required>
             </div>
-            <button class="btn" type="button" @click="buyCripto">COMPRAR</button>
+            <button class="btn" type="submit" @click.prevent="buyCripto">COMPRAR</button>
         </form>
     </div>
 </template>
 
 <script>
-    import ClientApi  from "@/services/ClientApi";
+    import ClientApi  from "@/services/ClientApi.js";
     export default {
         name: "FormPurchase",
         data() {
@@ -64,10 +64,17 @@
                     this.$toast.error("Debe seleccionar una criptomoneda");
                 }else {
                     ClientApi.newTransaction(this.buySale)
-                    .then(() => {this.$toast.info("Venta realizada con Éxito");})
-                    .catch(() => {this.$toast.error("Error al realizar la Venta");});
+                    .then(() => {this.$toast.info("Compra realizada con Éxito");})
+                    .catch(() => {this.$toast.error("Error al realizar la Compra");});
                 }
             }
+        },
+        nameCriptos(crypto_code){
+            if(crypto_code === bitcoin) return Bitcoin;
+            if(crypto_code === ethereum) return Ethereum;
+            if(crypto_code === theter) return Theter;
+            if(crypto_code === usdc) return USDCoin;
+            if(crypto_code === binance) return BinanceUSD;
         },
         created() {},
         computed: {},
@@ -120,7 +127,7 @@
         display: block;
         border-left:4px solid #2AC176;
         border-bottom:4px solid #2AC176;
-        transform: rotate(-45deg); /* Giramos el cuadrado */
+        transform: rotate(-45deg);
         transition: all 0.25s ease;
     }
     .select:hover i{

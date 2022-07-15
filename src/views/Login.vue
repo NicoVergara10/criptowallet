@@ -9,10 +9,9 @@
       </div>
       <form class="p-3 mt-3">
           <div class="form-field d-flex align-items-center">
-              <span class="far fa-user"></span>
-              <input type="text" name="idUsuario" v-model="idUser" id="idUsuario" placeholder="ID">
+              <input type="text" name="idUser" v-model="idUser" id="idUser" placeholder="ID">
           </div>
-          <button class="btn mt-3" @click="enter">LOGIN</button>
+          <button class="btn mt-3" @click="enter">INGRESAR</button>
       </form>
     </div>
   </div>
@@ -29,7 +28,7 @@ export default {
   },
   methods: {
     enter() {
-      if (this.idUser.trim() === "") {
+      if (this.idUser === "") {
         this.$toast.error("Error! el campo no debe estar vacío");
       } else {
         if (this.idUser.length > 10) {
@@ -37,8 +36,8 @@ export default {
             "Error! El ID de usuario no debe contener más de 10 caracteres"
           );
         } else {
-          this.$store.commit("modificarIdUsuario", this.idUser);
-          this.$store.commit("cargarTransacciones");
+          this.$store.commit("newUser", this.idUser);
+          this.$store.commit("insertTransaction");
           this.$router.push("/transactions");
         }
       }
@@ -84,23 +83,19 @@ export default {
   }
 
   .wrapper .form-field input {
-   width: 100%;
-      display: block;
-      border: none;
-      outline: none;
-      background: none;
-      font-size: 1.2rem;
-      color: #666;
-      padding: 10px 15px 15px 10px;
-      padding-left: 20px;
-      margin-bottom: 25px;
-      border-radius: 15px;
-      box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff;
+    width: 100%;
+    display: block;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 1.2rem;
+    color: #666;
+    padding: 10px 15px 15px 10px;
+    padding-left: 20px;
+    margin-bottom: 25px;
+    border-radius: 15px;
+    box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff;
   }
-  .wrapper .form-field .far {
-    color: #555;
-  }
-
   .wrapper .btn {
     box-shadow: none;
     width: 100%;

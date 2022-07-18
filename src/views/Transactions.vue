@@ -12,6 +12,7 @@
                 <FormSale />
             </div>
         </div>
+        <button @click="historial()">historial</button>
     </div>
 </template>
 
@@ -24,6 +25,11 @@
         components: { FormPurchase, FormSale },
         data() {
             return {};
+        },
+        methods: {
+            historial: function() {
+                this.$router.push("/historial");
+            },
         },
     };
 </script>

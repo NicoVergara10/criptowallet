@@ -2,7 +2,7 @@
     <div class="body">
         <nav>
             <div class="view">
-                <button id="view" @click="viewHistory">VER HISTORIAL</button>
+                <button id="view">VER HISTORIAL</button>
             </div>
             <div class="modife">
                 <button>EDITAR TRANSACCION</button>
@@ -24,11 +24,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="transaction in transactions" :key="transaction.id">
-                        <td>{{ (this.transaction[0] + 1) }}</td>
-                        <td>{{ transaction.cripto_code }}</td>
+                    <tr v-for="transaction in transactions" :key="transaction._id">
+                        <td>{{ (transaction._id + 1) }}</td>
+                        <td>{{ nameCriptos(transaction.cripto_code) }}</td>
                         <td>{{ transaction.cripto_amount }}</td>
-                        <td>{{ transaction.action }}</td>
+                        <td>{{ typeAction(transaction.action) }}</td>
                         <td>{{ transaction.datetime }}</td>
                     </tr>
                 </tbody>
@@ -39,16 +39,53 @@
 
 <script>
     import ClientApi from '@/services/ClientApi.js';
+
     export default {
-        name: history,
+        name: "history",
         data(){
             return {
-                idUser: "",
+                countTransaction: 0,
                 transactions: [],
             }
         },
+        props:{},
+        computed: {
+            // insertTransaction(){
+            //     ClientApi.getHistory(this.$store.state.idUser).then((response) => {
+            //         this.transactions = response.data;
+            //     }).catch(() => {this.$toast.error("Error");});
+            // },
+        },
         methods: {
-            
+            insertTransaction(){
+                ClientApi.getHistory(state.idUser)
+                .then((response) => {
+                    state.transactions = response.data;
+                }).catch(() => {
+                    alert("Error");
+                });
+            },
+            nameCriptos(crypto_code){
+                if(crypto_code == bitcoin) return Bitcoin;
+                if(crypto_code == ethereum) return Ethereum;
+                if(crypto_code == theter) return Theter;
+                if(crypto_code == usdc) return USDCoin;
+                if(crypto_code == binance) return BinanceUSD;
+            },
+            typeAction(action){
+                // if (action === "purchase" ? "COMPRA" : "VENTA");
+                if(action === "purchase"){
+                    return "Compra";
+                }else{
+                    return "Venta";
+                }
+            },
+        },
+        mounted() {
+            ClientApi.getHistory(this.$store.state.idUser).then((response) => {
+                this.transactions = response.data;
+                this.countTransaction = this.transactions.length;
+            }).catch(() => {this.$toast.error("Error");});
         }
     }
 </script>
@@ -99,5 +136,4 @@
     tbody tr:hover {
         background: rgb(243, 103, 199, 0.4);
     }
-
 </style>

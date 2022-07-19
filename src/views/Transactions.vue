@@ -12,7 +12,7 @@
                 <FormSale />
             </div>
         </div>
-        <button @click="historial()">historial</button>
+        <button @click="history()">historial</button>
     </div>
 </template>
 
@@ -27,8 +27,8 @@
             return {};
         },
         methods: {
-            historial: function() {
-                this.$router.push("/historial");
+            history: function() {
+                this.$router.push("/history");
             },
         },
     };

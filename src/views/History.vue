@@ -15,7 +15,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>TRANSACCION</th>
+                        <!-- <th>TRANSACCION</th> -->
                         <th>CRIPTOMONEDA</th>
                         <th>CANTIDAD</th>
                         <th>PRECIO</th>
@@ -25,9 +25,10 @@
                 </thead>
                 <tbody>
                     <tr v-for="transaction in transactions" :key="transaction._id">
-                        <td>{{ (transaction._id + 1) }}</td>
+                        <!-- <td>{{ (transaction._id + 1) }}</td> -->
                         <td>{{ nameCriptos(transaction.cripto_code) }}</td>
-                        <td>{{ transaction.cripto_amount }}</td>
+                        <td>{{ transaction.crypto_amount }}</td>
+                        <td> $ {{ transaction.money }}</td>
                         <td>{{ typeAction(transaction.action) }}</td>
                         <td>{{ transaction.datetime }}</td>
                     </tr>
@@ -49,13 +50,7 @@
             }
         },
         props:{},
-        computed: {
-            // insertTransaction(){
-            //     ClientApi.getHistory(this.$store.state.idUser).then((response) => {
-            //         this.transactions = response.data;
-            //     }).catch(() => {this.$toast.error("Error");});
-            // },
-        },
+        computed: {},
         methods: {
             insertTransaction(){
                 ClientApi.getHistory(state.idUser)
@@ -66,11 +61,11 @@
                 });
             },
             nameCriptos(crypto_code){
-                if(crypto_code == bitcoin) return Bitcoin;
-                if(crypto_code == ethereum) return Ethereum;
-                if(crypto_code == theter) return Theter;
-                if(crypto_code == usdc) return USDCoin;
-                if(crypto_code == binance) return BinanceUSD;
+                if(crypto_code == "bitcoin") {return "Bitcoin"};
+                if(crypto_code == "ethereum") {return "Ethereum"};
+                if(crypto_code == "theter") {return "Theter"};
+                if(crypto_code == "usdc") {return "USD Coin"};
+                if(crypto_code == "binance") {return "Binance USD"};
             },
             typeAction(action){
                 // if (action === "purchase" ? "COMPRA" : "VENTA");
@@ -93,6 +88,9 @@
 <style scoped>
     .body {
         display: inline-block;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
     nav {
         display: flex;
@@ -105,11 +103,8 @@
     nav button {
         cursor: pointer;
     }
-    /* .container {
-        border: solid 1px rgb(255, 255, 255, 0.2);
-    } */
     table {
-        display: flex;
+        display: inline-block;
         flex-direction: center;
         align-items: center;
         justify-content: center;
@@ -127,7 +122,9 @@
         text-transform: uppercase;
     }
     td {
-        padding: 15px;
+        padding: 20px 15px;
+        font-weight: 700;
+        text-transform: uppercase;
         border-bottom: solid 1px rgb(255, 255, 255, 0.2);
     }
     tbody tr {

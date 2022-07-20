@@ -52,9 +52,9 @@ export default {
     min-height: 500px;
     margin: 80px auto;
     padding: 40px 30px 30px 30px;
-    background-color: #ecf0f3;
+    background-color: #ecf0f3d8;
     border-radius: 15px;
-    box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
+    /* box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff; */
   }
 
   .logo {

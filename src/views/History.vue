@@ -2,17 +2,17 @@
     <div class="body">
         <nav>
             <div class="view">
-                <button id="view">VER HISTORIAL</button>
+                <button id="view" @click="(table = true)">VER HISTORIAL</button>
             </div>
             <div class="modife">
-                <button>EDITAR TRANSACCION</button>
+                <button @click="(edit = true)">EDITAR TRANSACCION</button>
             </div>
             <div class="delete">
                 <button>ELIMINAR TRANSACCION</button>
             </div>
         </nav>
         <div class="container">
-            <table>
+            <table v-show="table">
                 <thead>
                     <tr>
                         <!-- <th>TRANSACCION</th> -->
@@ -26,11 +26,11 @@
                 <tbody>
                     <tr v-for="transaction in transactions" :key="transaction._id">
                         <!-- <td>{{ (transaction._id + 1) }}</td> -->
-                        <td>{{ nameCriptos(transaction.cripto_code) }}</td>
+                        <td>{{ nameCriptos(transaction.crypto_code) }}</td>
                         <td>{{ transaction.crypto_amount }}</td>
                         <td> $ {{ transaction.money }}</td>
                         <td>{{ typeAction(transaction.action) }}</td>
-                        <td>{{ transaction.datetime }}</td>
+                        <td>{{ time(transaction.datetime) }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -47,6 +47,8 @@
             return {
                 countTransaction: 0,
                 transactions: [],
+                table: false,
+                edit:"",
             }
         },
         props:{},
@@ -61,11 +63,11 @@
                 });
             },
             nameCriptos(crypto_code){
-                if(crypto_code == "bitcoin") {return "Bitcoin"};
-                if(crypto_code == "ethereum") {return "Ethereum"};
-                if(crypto_code == "theter") {return "Theter"};
-                if(crypto_code == "usdc") {return "USD Coin"};
-                if(crypto_code == "binance") {return "Binance USD"};
+                if(crypto_code == "bitcoin") return "Bitcoin";
+                if(crypto_code == "ethereum") return "Ethereum";
+                if(crypto_code == "theter") return "Theter";
+                if(crypto_code == "usdc") return "USD Coin";
+                if(crypto_code == "binance") return "Binance USD";
             },
             typeAction(action){
                 // if (action === "purchase" ? "COMPRA" : "VENTA");
@@ -74,6 +76,12 @@
                 }else{
                     return "Venta";
                 }
+            },
+            time(datetime){
+                return (datetime.slice(0, 10) + "  " + datetime.slice(12,16) + " Hs");
+            },
+            editRow(){
+                
             },
         },
         mounted() {
@@ -112,9 +120,11 @@
         font-size: 14px;
         table-layout: fixed;
         border-collapse: collapse;
+        background: #fbfbfbae;
+        /* box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff; */
     }
     thead {
-        background: rgb(243, 140, 210, 0.4);
+        background: rgba(226, 126, 194, 0.4);
     }
     th {
         padding: 20px 15px;

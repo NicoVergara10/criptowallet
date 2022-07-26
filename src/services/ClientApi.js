@@ -18,7 +18,7 @@ export default {
     editTransaction(id, transactionModifi) {
         return clienteAPI.patch(`/transactions/${id}`, transactionModifi);
     },
-    eliminarTransaccion(id) {
+    deleteTransaction(id) {
         return clienteAPI.delete(`/transactions/${id}`);
     },
 };

@@ -70,7 +70,6 @@
                 if(crypto_code == "binance") return "Binance USD";
             },
             typeAction(action){
-                // if (action === "purchase" ? "COMPRA" : "VENTA");
                 if(action === "purchase"){
                     return "Compra";
                 }else{
@@ -78,11 +77,11 @@
                 }
             },
             time(datetime){
-                return (datetime.slice(0, 10) + "  " + datetime.slice(12,16) + " Hs");
+                return (new Date(datetime).toLocaleDateString() + "  " + new Date(datetime).toLocaleTimeString() + " Hs");
             },
-            editRow(){
+            // editRow(){
                 
-            },
+            // },
         },
         mounted() {
             ClientApi.getHistory(this.$store.state.idUser).then((response) => {

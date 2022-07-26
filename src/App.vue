@@ -2,9 +2,8 @@
   <div>
     <nav>
       <router-link to="/">Login</router-link> |
-      <router-link to="/transactions">Compra-Venta</router-link>
-      <router-link to="/history">Historial</router-link>
-      <router-link to="/about">About</router-link>
+      <router-link to="/transactions">Compra-Venta</router-link> |
+      <router-link to="/history">Historial</router-link> |
     </nav>
     <router-view></router-view>
   </div>
@@ -30,19 +29,6 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-.login {
-  position: absolute;
-  top: -5px;
-  left: -5px;
-  right: -10px;
-  bottom: -10px;
-  width: auto;
-  height: auto;
-  background-image: url("./assets/matxcoin.png");
-  background-size: cover;
-  z-index: 0;
 }
 .body {
   position: absolute;

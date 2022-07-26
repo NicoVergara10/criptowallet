@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="body">
    <div class="wrapper">
       <div class="logo">
           <img src="../assets/pngwing.com.png" alt="">

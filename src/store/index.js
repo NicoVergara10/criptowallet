@@ -17,7 +17,7 @@ export default createStore({
       .then((response) => {
         state.transactions = response.data;
       }).catch(() => {
-        alert("Error");
+        this.$toast.error("Error");
       });
     },
   },

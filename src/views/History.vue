@@ -2,7 +2,7 @@
     <div class="body">
         <div>
             <div class="view">
-                <button id="view" @click="(table = true, edit = false)">VER HISTORIAL</button>
+                <button id="view" @click="(table = true)">VER HISTORIAL</button>
             </div>
         </div>
         <div class="container">
@@ -33,7 +33,7 @@
                                     },
                                 }"
                             >
-                                <span class="icon" @click="(table = false, edit = true)"><ion-icon name="create"></ion-icon></span>
+                                <span class="icon" @click="$route.state"><ion-icon name="create"></ion-icon></span>
                                 <span class="icon"><ion-icon name="trash"></ion-icon></span>
                             </router-link>
                         </td>
@@ -41,29 +41,26 @@
                 </tbody>
             </table>
         </div>
-        <div class="container" v-show="edit">
-            <Modify/>
-        </div>
     </div>
 </template>
 
 <script>
     import ClientApi from '@/services/ClientApi.js';
-    import Modify from "@/components/Modify.vue";
     export default {
     name: "history",
-    components: { Modify },
     data() {
         return {
             countTransaction: 0,
             transactions: [],
             table: false,
-            edit: false,
         };
     },
     props: {},
     computed: {},
     methods: {
+        edit(){
+           this.$router.push("/modify");
+        },
         insertTransaction() {
             ClientApi.getHistory(state.idUser)
                 .then((response) => {

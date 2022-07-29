@@ -43,7 +43,7 @@
         props:{
             id: {
                 required: true,
-                type: Array,
+                type: String,
             }
         },
         data(){

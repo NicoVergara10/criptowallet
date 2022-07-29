@@ -16,7 +16,7 @@ export default {
         return clienteAPI.post("/transactions", buySale);
     },
     editTransaction(id, transactionModify) {
-        return clienteAPI.put(`/transactions/${id}`, transactionModify);
+        return clienteAPI.patch(`/transactions/${id}`, transactionModify);
     },
     deleteTransaction(id) {
         return clienteAPI.delete(`/transactions/${id}`);

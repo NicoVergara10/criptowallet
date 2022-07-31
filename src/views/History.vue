@@ -1,45 +1,55 @@
 <template>
     <div class="body">
-        <div>
-            <div class="view">
-                <button id="view" @click="(table = true)">VER HISTORIAL</button>
+        <div class="history">
+            <div>
+                <div class="view">
+                    <button id="view" @click="(table = true)">VER HISTORIAL</button>
+                </div>
             </div>
-        </div>
-        <div class="container">
-            <table v-show="table">
-                <thead>
-                    <tr>
-                        <th>CRIPTOMONEDA</th>
-                        <th>CANTIDAD</th>
-                        <th>PRECIO</th>
-                        <th>TIPO DE OPERACION</th>
-                        <th>FECHA DE OPERACION</th>
-                        <th>EDICION-BORRADO</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="transaction in transactions" :key="transaction._id">
-                        <td>{{ nameCriptos(transaction.crypto_code) }}</td>
-                        <td>{{ transaction.crypto_amount }}</td>
-                        <td> $ {{ transaction.money }}</td>
-                        <td>{{ typeAction(transaction.action) }}</td>
-                        <td>{{ time(transaction.datetime) }}</td>
-                        <td>
-                            <router-link
-                                :to="{
-                                    name: 'Modify',
-                                    params: {
-                                        id: transaction._id,
-                                    },
-                                }"
-                            >
-                                <span class="icon" @click="$route.state"><ion-icon name="create"></ion-icon></span>
+            <div class="container">
+                <table v-show="table">
+                    <thead>
+                        <tr>
+                            <th>CRIPTOMONEDA</th>
+                            <th>CANTIDAD</th>
+                            <th>PRECIO</th>
+                            <th>TIPO DE OPERACION</th>
+                            <th>FECHA DE OPERACION</th>
+                            <th>EDICION-BORRADO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr 
+                            v-for="transaction in transactions" 
+                            :key="transaction._id">
+                            <td class="row">{{ nameCriptos(transaction.crypto_code) }}</td>
+                            <td class="row">{{ transaction.crypto_amount }}</td>
+                            <td class="row"> $ {{ transaction.money }}</td>
+                            <td class="row">{{ typeAction(transaction.action) }}</td>
+                            <td class="row">{{ time(transaction.datetime) }}</td>
+                            <td>
+                                <router-link
+                                    :to="{
+                                        name: 'Modify',
+                                        query: {
+                                            id: selectRow,
+                                        },
+                                    }"
+                                >
+                                    <span class="icon" 
+                                    @click="edit(transaction._id)"
+                                    :class="{ selected: selectRow === transaction._id }"
+                                    >
+                                        <ion-icon name="create">
+                                    </ion-icon></span>
+                                </router-link>
                                 <span class="icon"><ion-icon name="trash"></ion-icon></span>
-                            </router-link>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
 </template>
@@ -53,13 +63,18 @@
             countTransaction: 0,
             transactions: [],
             table: false,
+            selectRow: null,
         };
     },
     props: {},
     computed: {},
     methods: {
-        edit(){
-           this.$router.push("/modify");
+        edit(id){
+            if(this.selectRow !== id){
+                this.selectRow = id;
+            }else{
+                this.selectRow = null;
+            }
         },
         insertTransaction() {
             ClientApi.getHistory(state.idUser)
@@ -90,7 +105,7 @@
             }
         },
         time(datetime) {
-            return datetime.slice(0, 10) + " " + datetime.slice(11, 16) + "hours";
+            return datetime.slice(0, 10) + " " + datetime.slice(11, 16) + "Hs";
         },
     },
     mounted() {
@@ -103,7 +118,7 @@
 </script>
 
 <style scoped>
-    .body {
+    .history {
         display: inline-block;
         margin: 0;
         padding: 0;

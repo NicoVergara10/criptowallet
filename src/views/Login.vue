@@ -1,6 +1,6 @@
 <template>
   <div class="body">
-   <div class="wrapper">
+    <div class="wrapper">
       <div class="logo">
           <img src="../assets/pngwing.com.png" alt="">
       </div>
@@ -9,7 +9,7 @@
       </div>
       <form class="p-3 mt-3">
           <div class="form-field d-flex align-items-center">
-              <input type="text" name="idUser" v-model="idUser" id="idUser" placeholder="ID">
+              <input type="text" name="idUser" v-model="idUser" id="idUser" autocomplete="on" placeholder="ID">
           </div>
           <button class="btn mt-3" @click="enter">INGRESAR</button>
       </form>
@@ -30,16 +30,16 @@ export default {
     enter() {
       if (this.idUser === "") {
         this.$toast.error("Error! el campo no debe estar vacío");
-      } else {
-        if (this.idUser.length > 10) {
-          this.$toast.error(
-            "Error! El ID de usuario no debe contener más de 10 caracteres"
-          );
-        } else {
-          this.$store.commit("newUser", this.idUser);
-          this.$store.commit("insertTransaction");
-          this.$router.push("/transactions");
-        }
+      } 
+      else if (this.idUser.length > 10) {
+        this.$toast.error(
+          "Error! El ID de usuario no debe contener más de 10 caracteres"
+        );
+      } 
+      else {
+        this.$store.commit("newUser", this.idUser);
+        this.$store.commit("insertTransaction");
+        this.$router.push("/transactions");
       }
     }
   }
@@ -100,7 +100,7 @@ export default {
     box-shadow: none;
     width: 100%;
     height: 40px;
-    background-color: #0a70a0;
+    background-color: #0f82b7;
     color: #fff;
     border-radius: 25px;
     box-shadow: 3px 3px 3px #b1b1b1,

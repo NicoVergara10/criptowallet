@@ -9,12 +9,12 @@
             <span class="title"> {{ $store.state.idUser }}</span>
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a href="#">
             <span class="icon"><ion-icon name="log-in"></ion-icon></span>
             <span class="title"><router-link to="/">Login</router-link></span>
           </a>
-        </li>
+        </li> -->
         <li>
           <a href="#">
             <span class="icon"><ion-icon name="logo-bitcoin"></ion-icon></span>
@@ -75,29 +75,30 @@
   color: #2c3e50;
 }
 .body {
-  /* position: relative;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px; */
-  /* background-image: url("./assets/matxcoin.png"); */
-  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url(./assets/matxcoin.png);
+  background-repeat: no-repeat;
+  background-size: cover;
   background-attachment: fixed;
+  background-position: center;
 }
 .navigation {
-  min-height: 100vh;
+  min-height: 90vh;
   position: fixed;
   inset: 20px;
-  background: #287bff;
+  background: #1d2e4eb9;
   width: 80px;
-  border-left: 10px solid #287bff;
+  border-left: 10px solid #1d2e4eb9;
   border-radius: 50px;
   overflow: hidden;
   box-shadow: 15px 15px 20px rgba(0, 0, 0, 0.05);
   transition: 0.5s;
 }
 .navigation.active {
-  width: 300px;
+  width: 250px;
   border-radius: 20px;
 }
 .toggle {
@@ -189,7 +190,7 @@
   width: 100%;
   display: flex;
   text-decoration: none;
-  color: #fff;
+  color: rgb(255, 255, 255);
 }
 .navigation ul li:hover:not(:first-child) a{
   color: #365fa1;
@@ -206,6 +207,7 @@
   font-size: 1.75em;
 }
 .navigation ul li a .title{
+  text-transform: uppercase;
   position: relative;
   display: block;
   padding: 0 10px;

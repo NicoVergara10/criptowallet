@@ -1,38 +1,40 @@
 <template>
     <div class="body">
-        <form action="#" method="post">
-            <div class="criptos">
+        <div class="new">
+            <form action="#" method="post">
+                <div class="criptos">
+                    <div class="select">
+                        <select id="standard-select" v-model="transactionModify.crypto_code">
+                            <option value="">CRIPTOMONEDA</option>
+                            <option value="bitcoin">BITCOIN</option>
+                            <option value="ethereum">ETHEREUM</option>
+                            <option value="theter">THETER</option>
+                            <option value="usdc">USD COIN</option>
+                            <option value="binance">BINANCE USD</option>
+                        </select>
+                        <i></i>
+                    </div>
+                </div>
+                <div class="cantModi">
+                    <input type="number" id="cantModi" name="cantModi" v-model="transactionModify.crypto_amount" placeholder="CANTIDAD A MODIFICAR" required>
+                </div>
+                <div class="pagoModi">
+                    <input type="number" id="amount" name="amount" v-model="transactionModify.money" placeholder="IMPORTE $" required>
+                </div>
+                <div class="fechaModi">
+                    <input type="datetime-local" id="timeHour" name="timeHour" v-model="transactionModify.datetime" required>
+                </div>
                 <div class="select">
-                    <select id="standard-select" v-model="transactionModify.crypto_code">
-                        <option value="">CRIPTOMONEDA</option>
-                        <option value="bitcoin">BITCOIN</option>
-                        <option value="ethereum">ETHEREUM</option>
-                        <option value="theter">THETER</option>
-                        <option value="usdc">USD COIN</option>
-                        <option value="binance">BINANCE USD</option>
+                    <select id="standard-select" v-model="transactionModify.action">
+                        <option value="">TRANSACCION</option>
+                        <option value="purchase">COMPRAR</option>
+                        <option value="sale">VENDER</option>
                     </select>
                     <i></i>
                 </div>
-            </div>
-            <div class="cantModi">
-                <input type="number" id="cantModi" name="cantModi" v-model="transactionModify.crypto_amount" placeholder="CANTIDAD A COMPRAR" required>
-            </div>
-            <div class="pagoModi">
-                <input type="number" id="amount" name="amount" v-model="transactionModify.money" placeholder="IMPORTE $" required>
-            </div>
-            <div class="fechaModi">
-                <input type="datetime-local" id="timeHour" name="timeHour" v-model="transactionModify.datetime" required>
-            </div>
-            <div class="select">
-                <select id="standard-select" v-model="transactionModify.action">
-                    <option value="">TRANSACCION</option>
-                    <option value="purchase">COMPRAR</option>
-                    <option value="sale">VENDER</option>
-                </select>
-                <i></i>
-            </div>
-            <button class="btn" type="submit" @click.prevent="edit">GUARDAR</button>
-        </form>
+                <button class="btn" type="submit" @click.prevent="edit">GUARDAR</button>
+            </form>
+        </div>
     </div>
 </template>
 
@@ -40,12 +42,12 @@
     import ClientApi from "@/services/ClientApi.js";
     export default {
         name:"Modify",
-        props:{
-            id: {
-                required: true,
-                type: String,
-            }
-        },
+        // props:{
+        //     id: {
+        //         required: true,
+        //         type: String,
+        //     }
+        // },
         data(){
             return {
                 transactionModify:{
@@ -57,7 +59,12 @@
                     datetime: "",
                 },
             }
-        },  
+        },
+        computed:{
+            id(){
+                return this.$route.query.id;
+            }
+        },
         mounted(){
             ClientApi.getTransactionsById(this.id)
             .then((response) => {
@@ -100,7 +107,17 @@
 </script>
 
 <style>
-  .select select {
+    .new {
+        max-width: 350px;
+        min-height: 500px;
+        margin: 20px 20px;
+        padding: 40px 30px 30px 30px;
+        background-color: #ecf0f3d8;
+        border-radius: 15px;
+        /* box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff; */
+        background: #ecf0f3d8;
+    }
+    .select select {
         appearance: none;
 	    -webkit-appearance: none;
 	    -moz-appearance: none;

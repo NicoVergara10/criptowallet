@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-        <button @click="history()">historial</button>
+        <!-- <button @click="history()">historial</button> -->
     </div>
 </template>
 
@@ -28,11 +28,11 @@
         data() {
             return {};
         },
-        methods: {
-            history: function() {
-                this.$router.push("/history");
-            },
-        },
+        // methods: {
+        //     history: function() {
+        //         this.$router.push("/history");
+        //     },
+        // },
     };
 </script>
 

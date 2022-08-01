@@ -68,13 +68,6 @@
                     .catch(() => {this.$toast.error("Error al realizar la Compra");});
                 }
             },
-            nameCriptos(crypto_code){
-                if(crypto_code == "bitcoin") return "Bitcoin";
-                if(crypto_code == "ethereum") return "Ethereum";
-                if(crypto_code == "theter") return "Theter";
-                if(crypto_code == "usdc") return "USD Coin";
-                if(crypto_code == "binance") return "Binance USD";
-            },
         },
         created() {},
         computed: {},

@@ -33,6 +33,7 @@
                     <i></i>
                 </div>
                 <button class="btn" type="submit" @click.prevent="edit">GUARDAR</button>
+                <button class="btn" type="submit" @click.prevent="cancel">CANCELAR</button>
             </form>
         </div>
     </div>
@@ -95,13 +96,16 @@
                     ClientApi.editTransaction(this.id, this.transactionModify)
                     .then(() => {
                         this.$toast.info("Editado correctamente");
-                        this.$router.push("/transactions");
+                        this.$router.push("/history");
                     })
                     .catch(() => {
                         this.$toast.error("Error al Editar Transacción");
                     });
                 }
             },
+            cancel(){
+                this.$router.push("/history");
+            }
         },
     }
 </script>
@@ -194,5 +198,6 @@
         letter-spacing: 1.3px;
         cursor: pointer;
         transition: background 0.3s ease-in-out;
+        margin: 5px;
     }
 </style>

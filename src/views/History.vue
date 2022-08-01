@@ -21,7 +21,7 @@
                     <tbody>
                         <tr 
                             v-for="transaction in transactions" 
-                            :key="transaction._id">
+                            :key="transaction._id" :class="{ selected: selectRow === transaction._id }">
                             <td class="row">{{ nameCriptos(transaction.crypto_code) }}</td>
                             <td class="row">{{ transaction.crypto_amount }}</td>
                             <td class="row"> $ {{ transaction.money }}</td>
@@ -38,18 +38,20 @@
                                 >
                                     <span class="icon" 
                                     @click="edit(transaction._id)"
-                                    :class="{ selected: selectRow === transaction._id }"
                                     >
                                         <ion-icon name="create">
                                     </ion-icon></span>
                                 </router-link>
-                                <span class="icon"><ion-icon name="trash"></ion-icon></span>
+                                <span class="icon" 
+                                @click="deleteRow(transaction._id)"
+                                >
+                                    <ion-icon name="trash">
+                                </ion-icon></span>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-
         </div>
     </div>
 </template>
@@ -76,8 +78,27 @@
                 this.selectRow = null;
             }
         },
+        deleteRow(id){
+            if(this.selectRow !== id){
+                this.selectRow = id;
+                if(confirm("Está seguro que desea eliminar esta transacción?")) {
+                    ClientApi.deleteTransaction(this.selectRow)
+                    .then(() => {
+                        this.$toast.info("Eliminado con exito");
+                        // this.$router.push("/history");
+                    })
+                    .catch(() => {
+                        this.$toast.error("Error al Eliminar la Transacción");
+                    }).finally(() => {
+                        this.loading = true;
+                    });
+                }
+            }else{
+                this.selectRow = null;
+            } 
+        },
         insertTransaction() {
-            ClientApi.getHistory(state.idUser)
+            ClientApi.getHistory(this.$store.state.idUser)
                 .then((response) => {
                 state.transactions = response.data;
             }).catch(() => {
@@ -109,10 +130,13 @@
         },
     },
     mounted() {
-        ClientApi.getHistory(this.$store.state.idUser).then((response) => {
+        ClientApi.getHistory(this.$store.state.idUser)
+        .then((response) => {
             this.transactions = response.data;
             this.countTransaction = this.transactions.length;
-        }).catch(() => { this.$toast.error("Error"); });
+        }).catch(() => { 
+            this.$toast.error("Error");
+        });
     },
 }
 </script>

@@ -18,7 +18,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'Login',
   data() {
@@ -58,8 +57,9 @@ export default {
   }
 
   .logo {
-    width: 90px;
+    width: 95px;
     margin: auto;
+    margin-top: 15px;
   }
 
   .logo img {
@@ -80,6 +80,7 @@ export default {
     padding-left: 10px;
     color: #555;
     padding: 20px;
+    margin: 15px;
   }
 
   .wrapper .form-field input {
@@ -100,6 +101,7 @@ export default {
     box-shadow: none;
     width: 100%;
     height: 40px;
+    margin-top: 15px;
     background-color: #0f82b7;
     color: #fff;
     border-radius: 25px;

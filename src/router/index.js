@@ -3,6 +3,7 @@ import Login from '../views/Login.vue';
 import Transactions from '../views/Transactions.vue';
 import History from '../views/History.vue';
 import Modify from  '../views/Modify.vue';
+import CurrentStatus from '../views/CurrentStatus.vue';
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: '/modify',
     name: 'Modify',
     component: Modify,
+  },
+  {
+    path: '/status',
+    name: 'CurrentStatus',
+    component: CurrentStatus,
   },
 ];
 

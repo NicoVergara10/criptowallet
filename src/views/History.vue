@@ -1,10 +1,8 @@
 <template>
     <div class="body">
         <div class="history">
-            <div>
-                <div class="view">
-                    <button id="view" @click="(table = true)">VER HISTORIAL</button>
-                </div>
+            <div v-show="view">
+                <button id="foot"><button class="button-os" @click="(table = true, view = false)"><a href="#">VER HISTORIAL</a></button></button>
             </div>
             <div class="container">
                 <table v-show="table">
@@ -66,6 +64,7 @@
             transactions: [],
             table: false,
             selectRow: null,
+            view: true,
         };
     },
     props: {},
@@ -145,20 +144,21 @@
     .history {
         display: inline-block;
         margin: 0;
+        margin-top: 30px;
         padding: 0;
         box-sizing: border-box;
     }
     div {
-        display: flex;
+        display: block;
         flex-direction: center;
         align-items: center;
         justify-content: center;
         margin: 0;
 
     }
-    div button {
+    /* div button {
         cursor: pointer;
-    }
+    } */
     table {
         display: inline-block;
         flex-direction: center;
@@ -194,13 +194,66 @@
         cursor: pointer;
         text-decoration: underline;
     }
-    /* tbody tr {
+    tbody tr {
         cursor: pointer;
-    } */
+    }
     tbody tr:hover {
         background: rgb(243, 103, 199, 0.4);
     }
     .vertical{
         writing-mode: vertical-lr;
+    }
+    button:hover{
+        border: none;
+        padding: 15px;
+        border-radius: 15px;
+        box-shadow: inset 0 0 8px #f9f8fc;
+    } 
+    #foot{
+        position: relative;
+        top: 15px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        border: none;
+        padding: 15px;
+        border-radius: 15px;
+        box-shadow: 0 0 8px #d9d4e7;
+        width: 250px;
+        height: 65px;
+        background-color: #d9d4e7;
+        animation-duration: 5s;
+    }
+    .button-os{
+        position: absolute;
+        width: 250px;
+        height: 65px;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        background-color: #f9f8fc86;
+        /* border: 0.5px #0e172c; */
+        border-radius: 15px;
+        transition: background-color 2.2s;
+        transition-duration: 3s;
+        transition: 1.5s;
+    }
+    .button-os:hover{
+        position: absolute;
+        top: 30px;
+        background-color: #fec7d7;
+    }
+    .button-os a{
+        font-size: 20px;
+        display: block;
+        text-decoration: none;
+        color:#0e172c;
+        transition: 1.5s;
+    }
+    .button-os a:hover{
+        letter-spacing: 5px;
     }
 </style>

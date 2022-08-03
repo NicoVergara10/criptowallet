@@ -29,6 +29,12 @@
         </li>
         <li>
           <a href="#">
+            <span class="icon"><ion-icon name="calculator"></ion-icon></span>
+            <span class="title"><router-link to="/status">Estado Actual</router-link></span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
             <span class="icon"><ion-icon name="arrow-undo"></ion-icon></span>
             <span class="title" @click="quit()">SALIR</span>
           </a>

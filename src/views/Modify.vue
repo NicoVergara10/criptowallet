@@ -6,11 +6,11 @@
                     <div class="select">
                         <select id="standard-select" v-model="transactionModify.crypto_code">
                             <option value="">CRIPTOMONEDA</option>
-                            <option value="bitcoin">BITCOIN</option>
-                            <option value="ethereum">ETHEREUM</option>
-                            <option value="theter">THETER</option>
+                            <option value="btc">BITCOIN</option>
+                            <option value="eth">ETHEREUM</option>
+                            <option value="usdt">THETER</option>
                             <option value="usdc">USD COIN</option>
-                            <option value="binance">BINANCE USD</option>
+                            <option value="dai">DAI</option>
                         </select>
                         <i></i>
                     </div>
@@ -20,9 +20,6 @@
                 </div>
                 <div class="pagoModi">
                     <input type="number" id="amount" name="amount" v-model="transactionModify.money" placeholder="IMPORTE $" required>
-                </div>
-                <div class="fechaModi">
-                    <input type="datetime-local" id="timeHour" name="timeHour" v-model="transactionModify.datetime" required>
                 </div>
                 <div class="select">
                     <select id="standard-select" v-model="transactionModify.action">
@@ -43,12 +40,6 @@
     import ClientApi from "@/services/ClientApi.js";
     export default {
         name:"Modify",
-        // props:{
-        //     id: {
-        //         required: true,
-        //         type: String,
-        //     }
-        // },
         data(){
             return {
                 transactionModify:{
@@ -88,8 +79,6 @@
                     this.$toast.error("Debe ingresar un valor numérico");
                 }else if(parseFloat(this.transactionModify.money) <= 0) {
                     this.$toast.error("El monto a ingresar debe ser mayor a 0");
-                }else if(this.transactionModify.datetime === "") {
-                    this.$toast.error("Debe ingresar la fecha y la hora");
                 }else if(this.transactionModify.crypto_code === "") {
                     this.$toast.error("Debe seleccionar una criptomoneda");
                 }else {

@@ -3,25 +3,37 @@
         <form action="#" method="post">
             <div class="criptos">
                 <div class="select">
-                    <select id="standard-select" v-model="buySale.crypto_code" required>
-                        <option value="">CRIPTOMONEDA</option>
-                        <option value="bitcoin">BITCOIN</option>
-                        <option value="ethereum">ETHEREUM</option>
-                        <option value="theter">THETER</option>
+                    <select id="standard-select" v-model="buySale.crypto_code"  @change="getAgencies(buySale.crypto_code)">
+                        <option value="" disabled selected hidden>CRIPTOMONEDA</option>
+                        <option value="btc">BITCOIN</option>
+                        <option value="eth">ETHEREUM</option>
+                        <option value="usdt">THETER</option>
                         <option value="usdc">USD COIN</option>
-                        <option value="binance">BINANCE USD</option>
+                        <option value="dai">DAI</option>
+                    </select>
+                    <i></i>
+                </div>
+                <div class="select">
+                    <select
+                    id="standard-select"
+                    v-model="selectedAgency"
+                    @change="enableAmount()"
+                    :disabled="selectAgenciesDisabled"
+                    >
+                        <option value="" disabled selected hidden>Select agency</option>
+                        <option v-for="agency in agencies" :key="agency.agency" :value="agency">
+                            {{ agency.agency.toUpperCase() + " - Purchase price: " + agency.values.totalAsk }}
+                        </option>
                     </select>
                     <i></i>
                 </div>
             </div>
             <div class="cantVenta">
-                <input type="number" id="cantSale" name="cantBuy" v-model="buySale.crypto_amount" placeholder="CANTIDAD A VENDER" required>
+                <input type="number" id="cantSale" name="cantBuy" v-model="buySale.crypto_amount" placeholder="CANTIDAD A VENDER" required :disabled="setAmountDisabled"
+                @input="calculateAmount()">
             </div>
             <div class="pagoVenta">
-                <input type="number" id="amount" name="amount" v-model="buySale.money" placeholder="IMPORTE $" required>
-            </div>
-            <div class="fechaVenta">
-                <input type="datetime-local" id="timeHour" name="timeHour" v-model="buySale.datetime" required>
+                <input type="number" id="amount" name="amount" v-model="buySale.money" placeholder="IMPORTE $" required disabled>
             </div>
             <button class="btn" type="submit" @click.prevent="saleCripto">VENDER</button>
         </form>
@@ -30,6 +42,7 @@
 
 <script>
     import ClientApi  from "@/services/ClientApi";
+    import CryptoApi from "@/services/CryptoApi";
     export default {
         name: "FormSale",
         data() {
@@ -42,6 +55,10 @@
                     money: "",
                     datetime: "",
                 },
+                selectedAgency: "",
+                agencies: [],
+                selectAgenciesDisabled: true,
+                setAmountDisabled: true,
             };
         },
         methods: {
@@ -58,19 +75,37 @@
                     this.$toast.error("Debe ingresar un valor numérico");
                 }else if(parseFloat(this.buySale.money) <= 0) {
                     this.$toast.error("El monto a ingresar debe ser mayor a 0");
-                }else if(this.buySale.datetime === "") {
-                    this.$toast.error("Debe ingresar la fecha y la hora de la venta");
                 }else if(this.buySale.crypto_code === "") {
                     this.$toast.error("Debe seleccionar una criptomoneda");
                 }else {
+                    this.buySale.datetime = new Date();
                     ClientApi.newTransaction(this.buySale)
-                    .then(() => {this.$toast.info("Venta realizada con Éxito");})
+                    .then(() => {
+                        this.$toast.info("Venta realizada con Éxito");
+                        this.$store.commit("insertTransactions");
+                    })
                     .catch(() => {this.$toast.error("Error al realizar la Venta");});
                 }
             },
+            getAgencies(crypto) {
+                CryptoApi.getAgenciesInformation(crypto)
+                .then((res) => {
+                this.agencies = Object.keys(res.data).map((agency, index) => {
+                    return { agency: agency, values: Object.values(res.data)[index] };
+                });
+                this.selectAgenciesDisabled = false;
+                })
+                .catch();
+            },
+            enableAmount() {
+                this.setAmountDisabled = false;
+            },
+            calculateAmount() {
+                this.buySale.money = (
+                    this.buySale.crypto_amount * this.selectedAgency.values.totalAsk
+                ).toFixed(2);
+            },
         },
-        created() {},
-        computed: {},
     }
 </script>
 

@@ -41,7 +41,7 @@
                                     </ion-icon></span>
                                 </router-link>
                                 <span class="icon" 
-                                @click="deleteRow(transaction._id)"
+                                @click="deleteRow(transaction._id)" :key="table"
                                 >
                                     <ion-icon name="trash">
                                 </ion-icon></span>
@@ -55,8 +55,8 @@
 </template>
 
 <script>
-    import ClientApi from '@/services/ClientApi.js';
-    export default {
+import ClientApi from '@/services/ClientApi.js';
+export default {
     name: "history",
     data() {
         return {
@@ -67,8 +67,15 @@
             view: true,
         };
     },
-    props: {},
-    computed: {},
+    mounted() {
+        ClientApi.getHistory(this.$store.state.idUser)
+        .then((response) => {
+            this.transactions = response.data;
+            this.countTransaction = this.transactions.length;
+        }).catch(() => { 
+            this.$toast.error("Error");
+        });
+    },
     methods: {
         edit(id){
             if(this.selectRow !== id){
@@ -84,7 +91,6 @@
                     ClientApi.deleteTransaction(this.selectRow)
                     .then(() => {
                         this.$toast.info("Eliminado con exito");
-                        // this.$router.push("/history");
                     })
                     .catch(() => {
                         this.$toast.error("Error al Eliminar la Transacción");
@@ -96,25 +102,17 @@
                 this.selectRow = null;
             } 
         },
-        insertTransaction() {
-            ClientApi.getHistory(this.$store.state.idUser)
-                .then((response) => {
-                state.transactions = response.data;
-            }).catch(() => {
-                this.$toast.error("Error");
-            });
-        },
         nameCriptos(crypto_code) {
-            if (crypto_code == "bitcoin")
+            if (crypto_code == "btc")
                 return "Bitcoin";
-            if (crypto_code == "ethereum")
+            if (crypto_code == "eth")
                 return "Ethereum";
-            if (crypto_code == "theter")
+            if (crypto_code == "usdt")
                 return "Theter";
             if (crypto_code == "usdc")
                 return "USD Coin";
-            if (crypto_code == "binance")
-                return "Binance USD";
+            if (crypto_code == "dai")
+                return "Dai";
         },
         typeAction(action) {
             if (action === "purchase") {
@@ -127,15 +125,6 @@
         time(datetime) {
             return datetime.slice(0, 10) + " " + datetime.slice(11, 16) + "Hs";
         },
-    },
-    mounted() {
-        ClientApi.getHistory(this.$store.state.idUser)
-        .then((response) => {
-            this.transactions = response.data;
-            this.countTransaction = this.transactions.length;
-        }).catch(() => { 
-            this.$toast.error("Error");
-        });
     },
 }
 </script>
@@ -172,7 +161,7 @@
         /* box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff; */
     }
     thead {
-        background: rgba(226, 126, 194, 0.4);
+        background: rgba(105, 11, 186, 0.4);
     }
     th {
         padding: 20px 15px;
@@ -200,9 +189,9 @@
     tbody tr:hover {
         background: rgb(243, 103, 199, 0.4);
     }
-    .vertical{
+    /* .vertical{
         writing-mode: vertical-lr;
-    }
+    } */
     button:hover{
         border: none;
         padding: 15px;

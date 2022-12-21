@@ -8,11 +8,11 @@
                 <table v-show="table">
                     <thead>
                         <tr>
+                            <th>FECHA DE OPERACION</th>
                             <th>CRIPTOMONEDA</th>
                             <th>CANTIDAD</th>
                             <th>PRECIO</th>
                             <th>TIPO DE OPERACION</th>
-                            <th>FECHA DE OPERACION</th>
                             <th>EDICION-BORRADO</th>
                         </tr>
                     </thead>
@@ -20,11 +20,11 @@
                         <tr 
                             v-for="transaction in transactions" 
                             :key="transaction._id" :class="{ selected: selectRow === transaction._id }">
+                            <td class="row">{{ time(transaction.datetime) }}</td>
                             <td class="row">{{ nameCriptos(transaction.crypto_code) }}</td>
                             <td class="row">{{ transaction.crypto_amount }}</td>
                             <td class="row"> $ {{ transaction.money }}</td>
                             <td class="row">{{ typeAction(transaction.action) }}</td>
-                            <td class="row">{{ time(transaction.datetime) }}</td>
                             <td>
                                 <router-link
                                     :to="{
@@ -91,6 +91,7 @@ export default {
                     ClientApi.deleteTransaction(this.selectRow)
                     .then(() => {
                         this.$toast.info("Eliminado con exito");
+                        this.$store.commit("insertTransactions");
                     })
                     .catch(() => {
                         this.$toast.error("Error al Eliminar la Transacción");
@@ -145,9 +146,6 @@ export default {
         margin: 0;
 
     }
-    /* div button {
-        cursor: pointer;
-    } */
     table {
         display: inline-block;
         flex-direction: center;

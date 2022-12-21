@@ -78,7 +78,7 @@
                 }else if(this.buySale.crypto_code === "") {
                     this.$toast.error("Debe seleccionar una criptomoneda");
                 }else {
-                    this.buySale.datetime.now = new Date();
+                    this.buySale.datetime = new Date();
                     ClientApi.newTransaction(this.buySale)
                     .then(() => {
                         this.$toast.info("Compra realizada con Éxito");

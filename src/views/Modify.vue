@@ -4,8 +4,8 @@
             <form action="#" method="post">
                 <div class="criptos">
                     <div class="select">
-                        <select id="standard-select" v-model="transactionModify.crypto_code">
-                            <option value="">CRIPTOMONEDA</option>
+                        <select id="standard-select" v-model="transactionModify.crypto_code" @change="getAgencies(transactionModify.crypto_code)">
+                            <option value="" disabled selected hidden>CRIPTOMONEDA</option>
                             <option value="btc">BITCOIN</option>
                             <option value="eth">ETHEREUM</option>
                             <option value="usdt">THETER</option>
@@ -15,8 +15,19 @@
                         <i></i>
                     </div>
                 </div>
-                <div class="cantModi">
-                    <input type="number" id="cantModi" name="cantModi" v-model="transactionModify.crypto_amount" placeholder="CANTIDAD A MODIFICAR" required>
+                <div class="select">
+                    <select
+                    id="standard-select"
+                    v-model="selectedAgency"
+                    @change="enableAmount()"
+                    :disabled="selectAgenciesDisabled"
+                    >
+                        <option value="" disabled selected hidden>Select agency</option>
+                        <option v-for="agency in agencies" :key="agency.agency" :value="agency">
+                            {{ agency.agency.toUpperCase() + " - Purchase price: " + agency.values.totalAsk }}
+                        </option>
+                    </select>
+                    <i></i>
                 </div>
                 <div class="pagoModi">
                     <input type="number" id="amount" name="amount" v-model="transactionModify.money" placeholder="IMPORTE $" required>
@@ -38,6 +49,7 @@
 
 <script>
     import ClientApi from "@/services/ClientApi.js";
+    import CryptoApi from "@/services/CryptoApi";
     export default {
         name:"Modify",
         data(){
@@ -50,6 +62,10 @@
                     money: "",
                     datetime: "",
                 },
+                selectedAgency: "",
+                agencies: [],
+                selectAgenciesDisabled: true,
+                setAmountDisabled: true,
             }
         },
         computed:{
@@ -82,9 +98,11 @@
                 }else if(this.transactionModify.crypto_code === "") {
                     this.$toast.error("Debe seleccionar una criptomoneda");
                 }else {
+                    this.buySale.datetime = new Date();
                     ClientApi.editTransaction(this.id, this.transactionModify)
                     .then(() => {
                         this.$toast.info("Editado correctamente");
+                        this.$store.commit("insertTransactions");
                         this.$router.push("/history");
                     })
                     .catch(() => {
@@ -94,7 +112,25 @@
             },
             cancel(){
                 this.$router.push("/history");
-            }
+            },
+            getAgencies(crypto) {
+                CryptoApi.getAgenciesInformation(crypto)
+                .then((res) => {
+                this.agencies = Object.keys(res.data).map((agency, index) => {
+                    return { agency: agency, values: Object.values(res.data)[index] };
+                });
+                this.selectAgenciesDisabled = false;
+                })
+                .catch();
+            },
+            enableAmount() {
+                this.setAmountDisabled = false;
+            },
+            calculateAmount() {
+                this.transactionModify.money = (
+                    this.transactionModify.crypto_amount * this.selectedAgency.values.totalAsk
+                ).toFixed(2);
+            },
         },
     }
 </script>

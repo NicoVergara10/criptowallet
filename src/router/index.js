@@ -4,6 +4,7 @@ import Transactions from '../views/Transactions.vue';
 import History from '../views/History.vue';
 import Modify from  '../views/Modify.vue';
 import CurrentStatus from '../views/CurrentStatus.vue';
+import Analysis from '../views/InvestmentAnalysis.vue';
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: '/status',
     name: 'CurrentStatus',
     component: CurrentStatus,
+  },
+  {
+    path: '/analysis',
+    name: 'Analysis',
+    component: Analysis,
   },
 ];
 

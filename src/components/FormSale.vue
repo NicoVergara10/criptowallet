@@ -22,7 +22,7 @@
                     >
                         <option value="" disabled selected hidden>Select agency</option>
                         <option v-for="agency in agencies" :key="agency.agency" :value="agency">
-                            {{ agency.agency.toUpperCase() + " - Purchase price: " + agency.values.totalAsk }}
+                            {{ agency.agency.toUpperCase() + " - Sale price: " + agency.values.totalBid }}
                         </option>
                     </select>
                     <i></i>

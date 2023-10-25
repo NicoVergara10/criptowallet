@@ -1,5 +1,6 @@
 <template>
     <div class="body">
+        <Navbar/>
         <div class="commerce">
             <div class="btnP">
                 <h2>COMPRAR CRIPTOS</h2>
@@ -20,10 +21,11 @@
 <script>
     import FormPurchase from "@/components/FormPurchase.vue";
     import FormSale from "@/components/FormSale.vue";
+    import Navbar from "@/components/Navbar.vue";
 
     export default {
         name: "Transactions",
-        components: { FormPurchase, FormSale },
+        components: { FormPurchase, FormSale, Navbar },
         data() {
             return {};
         },

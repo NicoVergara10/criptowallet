@@ -16,6 +16,6 @@ export default {
   //   return clienteAPI.get("/cryptomkt/btc/ars/0.21");
   // },
   getPriceMoney(coin) {
-    return clienteAPI.get(`/bitex/${coin}`);
+    return clienteAPI.get(`/belo/${coin}`);
   },
 };

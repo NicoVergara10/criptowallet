@@ -29,8 +29,12 @@
                     </select>
                     <i></i>
                 </div>
+                <div class="cantCompra">
+                    <input type="number" id="cantBuy" name="cantBuy" v-model="transactionModify.crypto_amount" placeholder="CANTIDAD A COMPRAR" required
+                    @input="calculateAmount()">
+                </div>
                 <div class="pagoModi">
-                    <input type="number" id="amount" name="amount" v-model="transactionModify.money" placeholder="IMPORTE $" required>
+                    <input type="number" id="amount" name="amount" v-model="transactionModify.money" placeholder="IMPORTE $" required disabled>
                 </div>
                 <div class="select">
                     <select id="standard-select" v-model="transactionModify.action">
@@ -83,22 +87,7 @@
         },
         methods:{
             edit(){
-                if(this.transactionModify.crypto_amount === "") {
-                    this.$toast.error("Ingrese una cantidad");
-                }else if(!parseFloat(this.transactionModify.crypto_amount)) {
-                    this.$toast.error("Debe ingresar un valor numérico");
-                }else if(parseFloat(this.transactionModify.crypto_amount) <= 0) {
-                    this.$toast.error("La cantidad a ingresar debe ser mayor a 0");
-                }else if(this.transactionModify.money === "") {
-                    this.$toast.error("Ingrese un valor númerico");
-                }else if(!parseFloat(this.transactionModify.money)){
-                    this.$toast.error("Debe ingresar un valor numérico");
-                }else if(parseFloat(this.transactionModify.money) <= 0) {
-                    this.$toast.error("El monto a ingresar debe ser mayor a 0");
-                }else if(this.transactionModify.crypto_code === "") {
-                    this.$toast.error("Debe seleccionar una criptomoneda");
-                }else {
-                    this.buySale.datetime = new Date();
+                this.transactionModify.datetime = new Date();
                     ClientApi.editTransaction(this.id, this.transactionModify)
                     .then(() => {
                         this.$toast.info("Editado correctamente");
@@ -108,7 +97,6 @@
                     .catch(() => {
                         this.$toast.error("Error al Editar Transacción");
                     });
-                }
             },
             cancel(){
                 this.$router.push("/history");

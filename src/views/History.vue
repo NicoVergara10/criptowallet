@@ -1,11 +1,12 @@
 <template>
     <div class="body">
+        <Navbar/>
         <div class="history">
-            <div v-show="view">
+            <!-- <div v-show="view">
                 <button id="foot"><button class="button-os" @click="(table = true, view = false)"><a href="#">VER HISTORIAL</a></button></button>
-            </div>
+            </div> -->
             <div class="container">
-                <table v-show="table">
+                <table >
                     <thead>
                         <tr>
                             <th>FECHA DE OPERACION</th>
@@ -37,8 +38,8 @@
                                     <span class="icon" 
                                     @click="edit(transaction._id)"
                                     >
-                                        <ion-icon name="create">
-                                    </ion-icon></span>
+                                        <ion-icon name="create"></ion-icon>
+                                    </span>
                                 </router-link>
                                 <span class="icon" 
                                 @click="deleteRow(transaction._id)" :key="table"
@@ -56,13 +57,15 @@
 
 <script>
 import ClientApi from '@/services/ClientApi.js';
+import Navbar from "@/components/Navbar.vue";
 export default {
     name: "history",
+    components: { Navbar },
     data() {
         return {
             countTransaction: 0,
             transactions: [],
-            table: false,
+            // table: false,
             selectRow: null,
             view: true,
         };
@@ -80,6 +83,7 @@ export default {
         edit(id){
             if(this.selectRow !== id){
                 this.selectRow = id;
+                console.log(this.selectRow)
             }else{
                 this.selectRow = null;
             }
@@ -187,9 +191,6 @@ export default {
     tbody tr:hover {
         background: rgb(243, 103, 199, 0.4);
     }
-    /* .vertical{
-        writing-mode: vertical-lr;
-    } */
     button:hover{
         border: none;
         padding: 15px;

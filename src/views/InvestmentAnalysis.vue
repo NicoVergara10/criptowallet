@@ -58,7 +58,6 @@
             const valueMoney = data.crypto_amount * data.actualPrice;
             const difference = ((data.money - valueMoney) * -1).toFixed(2);
             this.investment.push(difference);
-            console.log(this.investment);
           })
           .catch(() => {
             this.$toast.error("Error");

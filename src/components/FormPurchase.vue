@@ -79,6 +79,7 @@
                     this.$toast.error("Debe seleccionar una criptomoneda");
                 }else {
                     this.buySale.datetime = new Date();
+                    this.buySale.datetime.setHours(this.buySale.datetime.getHours()-3);
                     ClientApi.newTransaction(this.buySale)
                     .then(() => {
                         this.$toast.info("Compra realizada con Éxito");

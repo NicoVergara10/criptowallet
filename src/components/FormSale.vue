@@ -43,6 +43,8 @@
 <script>
     import ClientApi  from "@/services/ClientApi";
     import CryptoApi from "@/services/CryptoApi";
+    import { mapGetters } from "vuex";
+
     export default {
         name: "FormSale",
         data() {
@@ -61,6 +63,11 @@
                 setAmountDisabled: true,
             };
         },
+        computed:{
+            ...mapGetters({
+                wallet: "getCurrentStatus",
+            }),
+        },
         methods: {
             saleCripto(){
                 if(this.buySale.crypto_amount === "") {
@@ -78,14 +85,26 @@
                 }else if(this.buySale.crypto_code === "") {
                     this.$toast.error("Debe seleccionar una criptomoneda");
                 }else {
-                    this.buySale.datetime = Date.now();
-                    ClientApi.newTransaction(this.buySale)
-                    .then(() => {
-                        this.$toast.info("Venta realizada con Éxito");
-                        this.$store.commit("insertTransactions");
-                    })
-                    .catch(() => {this.$toast.error("Error al realizar la Venta");});
+                    const cryptoAmountToSell = this.buySale.crypto_code;
+                    const userCryptoBalance = this.getAmountInWallet(cryptoAmountToSell);
+
+                    if (parseFloat(this.buySale.crypto_amount) <= userCryptoBalance) {
+                        this.buySale.datetime = new Date();
+                        this.buySale.datetime.setHours(this.buySale.datetime.getHours()-3);
+                        ClientApi.newTransaction(this.buySale)
+                        .then(() => {
+                            this.$toast.info("Venta realizada con Éxito");
+                            this.$store.commit("insertTransactions");
+                        })
+                        .catch(() => {this.$toast.error("Error al realizar la Venta");});
+                    }else{
+                        this.$toast.error("No tienes suficientes criptomonedas para realizar esta venta");
+                    }
                 }
+            },
+            getAmountInWallet(crypto_code){
+                const inWallet = this.wallet.find((entry) => entry.crypto_code === crypto_code);
+                return inWallet ? parseFloat(inWallet.crypto_amount) : 0;
             },
             getAgencies(crypto) {
                 CryptoApi.getAgenciesInformation(crypto)

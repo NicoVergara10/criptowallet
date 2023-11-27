@@ -23,6 +23,8 @@
             <td>{{ "$ " + actualTotalMoney.toFixed(2) }}</td>
           </tr>
         </table>
+        <CryptoChart />
+        <crypto-chart :chartData="chartData" :chartOptions="chartOptions"></crypto-chart>
       </div>
     </div>
 </template>
@@ -31,6 +33,7 @@
   import { mapGetters } from 'vuex';
   import Navbar from "@/components/Navbar.vue";
   import CryptoApi from "@/services/CryptoApi";
+  import CryptoChart from "@/components/CryptoChart.vue";
   
   export default {
     name: 'CurrentStatus',
@@ -39,6 +42,23 @@
       return {
         actualTotalMoney: 0,
         currentMoney: [],
+        chartData: {
+          labels: [],
+          datasets: [{
+            label: 'Valor Total',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1,
+            data: [],
+          }],
+        },
+        chartOptions: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
       };
     },
     computed: {
@@ -66,6 +86,8 @@
             const valueMoney = data.crypto_amount * data.actualPrice;
             this.currentMoney.push(valueMoney);
             this.actualTotalMoney += valueMoney;
+            this.chartData.labels.push(this.nameCriptos(crypto_code));
+            this.chartData.datasets[0].data.push(valueMoney);
           })
           .catch(() => {
             this.$toast.error("Error");

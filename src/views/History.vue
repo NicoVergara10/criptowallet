@@ -9,23 +9,23 @@
                 <table >
                     <thead>
                         <tr>
-                            <th>FECHA DE OPERACION</th>
                             <th>CRIPTOMONEDA</th>
                             <th>CANTIDAD</th>
                             <th>PRECIO</th>
                             <th>TIPO DE OPERACION</th>
-                            <th>EDICION-BORRADO</th>
+                            <th>FECHA DE OPERACION</th>
+                            <th>EDICION | BORRADO</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr 
                             v-for="transaction in transactions" 
                             :key="transaction._id" :class="{ selected: selectRow === transaction._id }">
-                            <td class="row">{{ time(transaction.datetime) }}</td>
                             <td class="row">{{ nameCriptos(transaction.crypto_code) }}</td>
                             <td class="row">{{ transaction.crypto_amount }}</td>
                             <td class="row"> $ {{ transaction.money }}</td>
                             <td class="row">{{ typeAction(transaction.action) }}</td>
+                            <td class="row">{{ time(transaction.datetime) }}</td>
                             <td>
                                 <router-link
                                     :to="{

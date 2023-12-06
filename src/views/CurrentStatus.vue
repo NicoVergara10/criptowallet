@@ -47,32 +47,6 @@
       }),
 
     },
-    mounted(){
-      const cryptoData = {};
-
-      this.wallet.forEach((coin) => {
-        cryptoData[coin.crypto_code] = {
-          crypto_amount: coin.crypto_amount,
-          money: parseFloat(coin.money),
-          actualPrice: 0,
-        }
-      });
-      Object.keys(cryptoData).forEach((crypto_code) => {
-        const data = cryptoData[crypto_code];
-        if(data.crypto_amount > 0){
-          CryptoApi.getPriceMoney(crypto_code)
-          .then((res) => {
-            data.actualPrice = res.data.totalBid;
-            const valueMoney = data.crypto_amount * data.actualPrice;
-            this.currentMoney.push(valueMoney);
-            this.actualTotalMoney += valueMoney;
-          })
-          .catch(() => {
-            this.$toast.error("Error");
-          });
-        }
-      });
-    },
     methods: {
       nameCriptos(crypto_code) {
         if (crypto_code == "btc")
@@ -86,6 +60,40 @@
         if (crypto_code == "dai")
           return "Dai";
       },
+
+      fetchData() {
+      const cryptoData = {};
+
+      const apiRequests = this.wallet.map((coin) => {
+        return CryptoApi.getPriceMoney(coin.crypto_code)
+          .then((res) => {
+            const data = {
+              crypto_amount: coin.crypto_amount,
+              money: parseFloat(coin.money),
+              actualPrice: res.data.totalBid,
+            };
+            cryptoData[coin.crypto_code] = data;
+            return data.crypto_amount * data.actualPrice;
+          })
+          .catch(() => {
+            this.$toast.error("Error");
+            return 0;
+          });
+      });
+
+      Promise.all(apiRequests)
+        .then((values) => {
+          this.currentMoney = values;
+          this.actualTotalMoney = values.reduce((total, value) => total + value, 0);
+        })
+        .catch((error) => {
+          console.error("Error al obtener datos de la API:", error);
+        });
+      },
+    },
+    mounted(){
+      this.fetchData();
+      
     },
   };
 </script>

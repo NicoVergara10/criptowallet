@@ -9,7 +9,7 @@
       </div>
       <form class="p-3 mt-3">
           <div class="form-field d-flex align-items-center">
-              <input type="text" name="idUser" v-model="idUser" id="idUser" autocomplete="on" placeholder="ID">
+              <input type="text" name="idUser" v-model="idUser" id="idUser" autocomplete="off" placeholder="ID">
           </div>
           <button class="btn mt-3" @click="enter">INGRESAR</button>
       </form>

@@ -42,29 +42,38 @@
     mounted(){
       const cryptoData = {};
 
-      this.wallet.forEach((coin) => {
-        cryptoData[coin.crypto_code] = {
-          crypto_amount: coin.crypto_amount,
-          money: parseFloat(coin.money),
-          actualPrice: 0,
-        }
-      });
-      Object.keys(cryptoData).forEach((crypto_code) => {
-        const data = cryptoData[crypto_code];
-        if(data.crypto_amount > 0){
-          CryptoApi.getPriceMoney(crypto_code)
-          .then((res) => {
-            data.actualPrice = res.data.totalBid;
+      // Mapear las monedas y obtener los precios de la API
+      const apiRequests = this.wallet.map((coin) => {
+        return CryptoApi.getPriceMoney(coin.crypto_code)
+        .then((res) => {
+          const data = {
+            crypto_amount: coin.crypto_amount,
+            money: parseFloat(coin.money),
+            actualPrice: res.data.totalBid,
+          };
+          cryptoData[coin.crypto_code] = data;
+
+          if (data.crypto_amount > 0) {
             const valueMoney = data.crypto_amount * data.actualPrice;
-            const difference = ((data.money - valueMoney) * -1).toFixed(2);
-            this.investment.push(difference);
-          })
-          .catch(() => {
-            this.$toast.error("Error");
-          });
-        }else if ((data.crypto_amount = 0)) {
-          return `${data.money * -1}`;
-        }
+            const difference = ((valueMoney - data.money) * -1).toFixed(2);
+            return difference;
+          } else {
+            return (data.money * -1).toFixed(2);
+          }
+        })
+        .catch(() => {
+          this.$toast.error("Error");
+          return "0.00";
+        });
+      });
+
+      // Esperar a que todas las solicitudes de la API se completen
+      Promise.all(apiRequests)
+        .then((values) => {
+          this.investment = values;
+        })
+        .catch((error) => {
+          console.error("Error al obtener datos de la API:", error);
       });
     },
     methods:{

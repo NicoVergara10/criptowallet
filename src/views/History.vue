@@ -2,11 +2,9 @@
     <div class="body">
         <Navbar/>
         <div class="history">
-            <!-- <div v-show="view">
-                <button id="foot"><button class="button-os" @click="(table = true, view = false)"><a href="#">VER HISTORIAL</a></button></button>
-            </div> -->
             <div class="container">
-                <table >
+                <div v-if="loading" class="loader"></div>
+                <table v-if="!loading">
                     <thead>
                         <tr>
                             <th>CRIPTOMONEDA</th>
@@ -19,7 +17,7 @@
                     </thead>
                     <tbody>
                         <tr 
-                            v-for="transaction in transactions" 
+                            v-for="transaction in sortedTransactions" 
                             :key="transaction._id" :class="{ selected: selectRow === transaction._id }">
                             <td class="row">{{ nameCriptos(transaction.crypto_code) }}</td>
                             <td class="row">{{ transaction.crypto_amount }}</td>
@@ -65,18 +63,29 @@ export default {
         return {
             countTransaction: 0,
             transactions: [],
-            // table: false,
             selectRow: null,
             view: true,
+            loading: false,
         };
     },
+    computed:{
+        sortedTransactions() {
+            return [...this.transactions].sort((a, b) => {
+                return new Date(b.datetime) - new Date(a.datetime);
+            });
+        },
+    },
     mounted() {
+        this.loading = true;
+
         ClientApi.getHistory(this.$store.state.idUser)
         .then((response) => {
             this.transactions = response.data;
             this.countTransaction = this.transactions.length;
         }).catch(() => { 
             this.$toast.error("Error");
+        }).finally(() => {
+            this.loading = false;
         });
     },
     methods: {
@@ -99,8 +108,6 @@ export default {
                     })
                     .catch(() => {
                         this.$toast.error("Error al Eliminar la Transacción");
-                    }).finally(() => {
-                        this.loading = true;
                     });
                 }
             }else{
@@ -244,4 +251,18 @@ export default {
     .button-os a:hover{
         letter-spacing: 5px;
     }
+    .loader {
+        border: 16px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 1s linear infinite;
+        margin: 50px auto;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }  
 </style>

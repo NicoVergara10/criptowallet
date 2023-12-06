@@ -35,7 +35,10 @@
             <div class="pagoVenta">
                 <input type="number" id="amount" name="amount" v-model="buySale.money" placeholder="IMPORTE $" required disabled>
             </div>
-            <button class="btn" type="submit" @click.prevent="saleCripto">VENDER</button>
+            <button class="btn" type="submit" @click.prevent="saleCripto">
+                <span v-if="!loading">VENDER</span>
+                <div v-if="loading" class="loader"></div>
+            </button>
         </form>
     </div>
 </template>
@@ -49,6 +52,7 @@
         name: "FormSale",
         data() {
             return {
+                loading: false,
                 buySale: {
                     user_id: this.$store.state.idUser,
                     action: "sale",
@@ -70,6 +74,8 @@
         },
         methods: {
             saleCripto(){
+                this.loading = true;
+
                 if(this.buySale.crypto_amount === "") {
                     this.$toast.error("Ingrese la cantidad a vender");
                 }else if(!parseFloat(this.buySale.crypto_amount)) {
@@ -96,7 +102,10 @@
                             this.$toast.info("Venta realizada con Éxito");
                             this.$store.commit("insertTransactions");
                         })
-                        .catch(() => {this.$toast.error("Error al realizar la Venta");});
+                        .catch(() => {this.$toast.error("Error al realizar la Venta");
+                        })
+                        .finally(() => {this.loading = false;
+                        });
                     }else{
                         this.$toast.error("No tienes suficientes criptomonedas para realizar esta venta");
                     }

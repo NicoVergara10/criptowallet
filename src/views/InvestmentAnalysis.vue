@@ -2,7 +2,8 @@
   <div>
     <Navbar />
     <div class="container">
-      <table>
+      <div v-if="loading" class="loader"></div>
+      <table v-if="!loading">
         <thead>
           <tr>
             <th>CRIPTOMONEDA</th>
@@ -32,6 +33,7 @@
       return {
         transactions: null,
         investment: [],
+        loading: false,
       };
     },
     computed:{
@@ -40,9 +42,10 @@
       }),
     },
     mounted(){
+
+      this.loading = true;
       const cryptoData = {};
 
-      // Mapear las monedas y obtener los precios de la API
       const apiRequests = this.wallet.map((coin) => {
         return CryptoApi.getPriceMoney(coin.crypto_code)
         .then((res) => {
@@ -64,10 +67,12 @@
         .catch(() => {
           this.$toast.error("Error");
           return "0.00";
+        })
+        .finally(() => {
+          this.loading = false;
         });
       });
 
-      // Esperar a que todas las solicitudes de la API se completen
       Promise.all(apiRequests)
         .then((values) => {
           this.investment = values;
@@ -127,7 +132,7 @@
     border-bottom: solid 1px rgb(255, 255, 255, 0.2);
   }
   tbody tr {
-      cursor: pointer;
+    cursor: pointer;
   }
   tbody tr:hover {
     background: rgb(243, 103, 199, 0.4);
@@ -135,4 +140,18 @@
   .total {
     background: rgb(243, 103, 199, 0.4);
   }
+  .loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 1s linear infinite;
+    margin: 50px auto;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }  
 </style>

@@ -35,7 +35,10 @@
             <div class="pagoCompra">
                 <input type="number" id="amount" name="amount" v-model="buySale.money" placeholder="IMPORTE $" required disabled>
             </div>
-            <button class="btn" type="submit" @click.prevent="buyCripto">COMPRAR</button>
+            <button class="btn" type="submit" @click.prevent="buyCripto">
+                <span v-if="!loading">COMPRAR</span>
+                <div v-if="loading" class="loader"></div>
+            </button>
         </form>
     </div>
 </template>
@@ -47,6 +50,7 @@
         name: "FormPurchase",
         data() {
             return {
+                loading: false,
                 buySale: {
                     user_id: this.$store.state.idUser,
                     action: "purchase",
@@ -63,6 +67,8 @@
         },
         methods: {
             buyCripto() {
+                this.loading = true;
+
                 if(this.buySale.crypto_amount === "") {
                     this.$toast.error("Ingrese la cantidad a comprar");
                 }else if(!parseFloat(this.buySale.crypto_amount)) {
@@ -85,7 +91,10 @@
                         this.$toast.info("Compra realizada con Éxito");
                         this.$store.commit("insertTransactions");
                     })
-                    .catch(() => {this.$toast.error("Error al realizar la Compra");});
+                    .catch(() => {this.$toast.error("Error al realizar la Compra");
+                    })
+                    .finally(() => {this.loading = false;
+                    });
                 }
             },
             getAgencies(crypto) {
@@ -188,5 +197,20 @@
         letter-spacing: 1.3px;
         cursor: pointer;
         transition: background 0.3s ease-in-out;
+    }
+    .loader {
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        border-top: 4px solid #3498db;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        animation: spin 1s linear infinite;
+        margin: 0 5px;
+        display: inline-block;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
 </style>

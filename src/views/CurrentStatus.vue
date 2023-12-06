@@ -2,7 +2,8 @@
     <div class="body">
       <Navbar/>
       <div class="container">
-        <table>
+        <div v-if="loading" class="loader"></div>
+        <table v-if="!loading">
           <thead>
             <tr>
               <th>CRIPTOMONEDA</th>
@@ -39,6 +40,7 @@
       return {
         actualTotalMoney: 0,
         currentMoney: [],
+        loading: false,
       };
     },
     computed: {
@@ -62,23 +64,28 @@
       },
 
       fetchData() {
+        
+      this.loading = true;
       const cryptoData = {};
 
       const apiRequests = this.wallet.map((coin) => {
         return CryptoApi.getPriceMoney(coin.crypto_code)
-          .then((res) => {
-            const data = {
-              crypto_amount: coin.crypto_amount,
-              money: parseFloat(coin.money),
-              actualPrice: res.data.totalBid,
-            };
-            cryptoData[coin.crypto_code] = data;
-            return data.crypto_amount * data.actualPrice;
-          })
-          .catch(() => {
-            this.$toast.error("Error");
-            return 0;
-          });
+        .then((res) => {
+          const data = {
+            crypto_amount: coin.crypto_amount,
+            money: parseFloat(coin.money),
+            actualPrice: res.data.totalBid,
+          };
+          cryptoData[coin.crypto_code] = data;
+          return data.crypto_amount * data.actualPrice;
+        })
+        .catch(() => {
+          this.$toast.error("Error");
+          return 0;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
       });
 
       Promise.all(apiRequests)
@@ -140,4 +147,18 @@
   .total {
     background: rgb(243, 103, 199, 0.4);
   }
+  .loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 1s linear infinite;
+    margin: 50px auto;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }  
 </style>

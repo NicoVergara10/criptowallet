@@ -20,16 +20,16 @@
                     @change="enableAmount()"
                     :disabled="selectAgenciesDisabled"
                     >
-                        <option value="" disabled selected hidden>Select agency</option>
+                        <option value="" disabled selected hidden>SELECCIONAR AGENCIA</option>
                         <option v-for="agency in agencies" :key="agency.agency" :value="agency">
-                            {{ agency.agency.toUpperCase() + " - Purchase price: " + agency.values.totalAsk }}
+                            {{ agency.agency.toUpperCase() + " - Precio: " + agency.values.totalAsk }}
                         </option>
                     </select>
                     <i></i>
                 </div>
             </div>
             <div class="cantCompra">
-                <input type="number" id="cantBuy" name="cantBuy" v-model="buySale.crypto_amount" placeholder="CANTIDAD A COMPRAR" required :disabled="setAmountDisabled"
+                <input type="number" min="0" id="cantBuy" name="cantBuy" v-model="buySale.crypto_amount" placeholder="CANTIDAD A COMPRAR" required :disabled="setAmountDisabled"
                 @input="calculateAmount()">
             </div>
             <div class="pagoCompra">

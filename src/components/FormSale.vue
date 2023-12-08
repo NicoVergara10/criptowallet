@@ -20,16 +20,16 @@
                     @change="enableAmount()"
                     :disabled="selectAgenciesDisabled"
                     >
-                        <option value="" disabled selected hidden>Select agency</option>
+                        <option value="" disabled selected hidden>SELECCIONAR AGENCIA</option>
                         <option v-for="agency in agencies" :key="agency.agency" :value="agency">
-                            {{ agency.agency.toUpperCase() + " - Sale price: " + agency.values.totalBid }}
+                            {{ agency.agency.toUpperCase() + " - Precio: " + agency.values.totalBid }}
                         </option>
                     </select>
                     <i></i>
                 </div>
             </div>
             <div class="cantVenta">
-                <input type="number" id="cantSale" name="cantBuy" v-model="buySale.crypto_amount" placeholder="CANTIDAD A VENDER" required :disabled="setAmountDisabled"
+                <input type="number" min="0" id="cantSale" name="cantBuy" v-model="buySale.crypto_amount" placeholder="CANTIDAD A VENDER" required :disabled="setAmountDisabled"
                 @input="calculateAmount()">
             </div>
             <div class="pagoVenta">
@@ -130,7 +130,7 @@
             },
             calculateAmount() {
                 this.buySale.money = (
-                    this.buySale.crypto_amount * this.selectedAgency.values.totalAsk
+                    this.buySale.crypto_amount * this.selectedAgency.values.totalBid
                 ).toFixed(2);
             },
         },

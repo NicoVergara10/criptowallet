@@ -3,8 +3,8 @@
         <Navbar/>
         <div class="history">
             <div class="container">
-                <div v-if="loading" class="loader">CARGANDO...</div>
-                <table v-else>
+                <div v-if="loading" class="loader"></div>
+                <table>
                     <thead>
                         <tr>
                             <th>CRIPTOMONEDA</th>

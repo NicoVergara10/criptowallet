@@ -40,7 +40,7 @@
       return {
         actualTotalMoney: 0,
         currentMoney: [],
-        loading: false,
+        loading: true,
       };
     },
     computed: {
@@ -63,41 +63,34 @@
           return "Dai";
       },
     },
-    mounted() {
-      const cryptoData = {};
-      this.loading = true;
+    async mounted() {
+      try {
+        const cryptoData = {};
 
-      const apiRequests = this.wallet.map((coin) => {
-        return CryptoApi.getPriceMoney(coin.crypto_code)
-          .then((res) => {
-            const data = {
-              crypto_amount: coin.crypto_amount,
-              money: parseFloat(coin.money),
-              actualPrice: res.data.totalBid,
-            };
-            cryptoData[coin.crypto_code] = data;
+        for (const coin of this.wallet) {
+          const res = await CryptoApi.getPriceMoney(coin.crypto_code);
+          const data = {
+            crypto_amount: coin.crypto_amount,
+            money: parseFloat(coin.money),
+            actualPrice: res.data.totalBid,
+          };
 
-            if (data.crypto_amount > 0) {
-              const valueMoney = +(data.crypto_amount * data.actualPrice).toFixed(2);
-              this.currentMoney.push(valueMoney);
-              this.actualTotalMoney += valueMoney;
-            }
-          })
-          .catch(() => {
-            this.$toast.error("Error");
-          })
-          .finally(() => {
-            this.loading = false;
-          });
-      });
+          cryptoData[coin.crypto_code] = data;
 
-      Promise.all(apiRequests)
-        .then((results) => {
-          console.log(this.currentMoney);
-        })
-        .catch((error) => {
-          this.$toast.error("Error");
-        });
+          if (data.crypto_amount > 0) {
+            const valueMoney = +(data.crypto_amount * data.actualPrice).toFixed(2);
+            this.currentMoney.push(valueMoney);
+            this.actualTotalMoney += valueMoney;
+          }
+        }
+        
+        this.loading = false;
+        console.log(this.currentMoney);
+      }catch (error) {
+        console.error("Error fetching data:", error);
+        this.$toast.error("Error");
+        this.loading = false;
+      }
     },
   };
 </script>

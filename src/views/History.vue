@@ -3,8 +3,8 @@
         <Navbar/>
         <div class="history">
             <div class="container">
-                <div v-if="loading" class="loader"></div>
-                <table v-if="!loading">
+                <div v-if="loading" class="loader">CARGANDO...</div>
+                <table v-else>
                     <thead>
                         <tr>
                             <th>CRIPTOMONEDA</th>
@@ -48,6 +48,7 @@
                         </tr>
                     </tbody>
                 </table>
+                <div v-if="!loading && sortedTransactions.length === 0">La tabla está vacía.</div>
             </div>
         </div>
     </div>
@@ -62,9 +63,7 @@ export default {
     components: { Navbar },
     data() {
         return {
-            countTransaction: 0,
             selectRow: null,
-            view: true,
             loading: false,
         };
     },

@@ -62,45 +62,42 @@
         if (crypto_code == "dai")
           return "Dai";
       },
-
-      fetchData() {
-        
-      this.loading = true;
+    },
+    mounted() {
       const cryptoData = {};
+      this.loading = true;
 
       const apiRequests = this.wallet.map((coin) => {
         return CryptoApi.getPriceMoney(coin.crypto_code)
-        .then((res) => {
-          const data = {
-            crypto_amount: coin.crypto_amount,
-            money: parseFloat(coin.money),
-            actualPrice: res.data.totalBid,
-          };
-          cryptoData[coin.crypto_code] = data;
-          return data.crypto_amount * data.actualPrice;
-        })
-        .catch(() => {
-          this.$toast.error("Error");
-          return 0;
-        })
-        .finally(() => {
-          this.loading = false;
-        });
+          .then((res) => {
+            const data = {
+              crypto_amount: coin.crypto_amount,
+              money: parseFloat(coin.money),
+              actualPrice: res.data.totalBid,
+            };
+            cryptoData[coin.crypto_code] = data;
+
+            if (data.crypto_amount > 0) {
+              const valueMoney = +(data.crypto_amount * data.actualPrice).toFixed(2);
+              this.currentMoney.push(valueMoney);
+              this.actualTotalMoney += valueMoney;
+            }
+          })
+          .catch(() => {
+            this.$toast.error("Error");
+          })
+          .finally(() => {
+            this.loading = false;
+          });
       });
 
       Promise.all(apiRequests)
-        .then((values) => {
-          this.currentMoney = values;
-          this.actualTotalMoney = values.reduce((total, value) => total + value, 0);
+        .then((results) => {
+          console.log(this.currentMoney);
         })
         .catch((error) => {
-          console.error("Error al obtener datos de la API:", error);
+          this.$toast.error("Error");
         });
-      },
-    },
-    mounted(){
-      this.fetchData();
-      
     },
   };
 </script>

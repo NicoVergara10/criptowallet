@@ -16,20 +16,22 @@ export default createStore({
         const index = wallet.findIndex((element) => element.crypto_code == transaction.crypto_code);
         if (index == -1) {
           if (transaction.action == "sale") {
-            const negativeTransaction = transaction;
-            negativeTransaction.crypto_amount = -negativeTransaction.crypto_amount;
-            negativeTransaction.money = -negativeTransaction.money;
-            wallet.push(negativeTransaction);
+            const negativeTransaction = { ...transaction };
+            negativeTransaction.crypto_amount = -parseFloat(negativeTransaction.crypto_amount);
+            negativeTransaction.money = -parseFloat(negativeTransaction.money);
+            const { crypto_amount, crypto_code, money } = negativeTransaction;
+            wallet.push({ crypto_amount, crypto_code, money });
           } else {
-            wallet.push(transaction);
+            const { crypto_amount, crypto_code, money } = transaction;
+            wallet.push({ crypto_amount, crypto_code, money });
           }
         } else {
           if (transaction.action == "purchase") {
-            wallet[index].crypto_amount += transaction.crypto_amount;
-            wallet[index].money += transaction.money;
+            wallet[index].crypto_amount += parseFloat(transaction.crypto_amount);
+            wallet[index].money += parseFloat(transaction.money);
           } else {
-            wallet[index].crypto_amount -= transaction.crypto_amount;
-            wallet[index].money -= transaction.money;
+            wallet[index].crypto_amount -= parseFloat(transaction.crypto_amount);
+            wallet[index].money -= parseFloat(transaction.money);
           }
         }
       });

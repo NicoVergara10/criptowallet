@@ -41,12 +41,15 @@ export default createStore({
       state.idUser = idUser;
     },
     insertTransaction(state){
-      ClientApi.getHistory(state.idUser)
+      ClientApi.getTransactions(state.idUser)
       .then((response) => {
         state.transactions = response.data;
       }).catch(() => {
-        this.$toast.error("Error");
+        alert("Error");
       });
+    },
+    deleteTransaction(state, transactionId) {
+      state.transactions = state.transactions.filter(transaction => transaction._id !== transactionId);
     },
   },
   actions: {

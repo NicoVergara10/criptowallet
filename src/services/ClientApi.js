@@ -1,4 +1,5 @@
 import axios from "axios";
+import store from "@/store";
 
 const clienteAPI = axios.create({
     baseURL: "https://laboratorio3-f36a.restdb.io/rest",
@@ -6,7 +7,7 @@ const clienteAPI = axios.create({
 });
 
 export default {
-    getHistory(idUser) {
+    getTransactions(idUser) {
         return clienteAPI.get(`/transactions?q={"user_id": "${idUser}"}`);
     },
     getTransactionsById(id) {
@@ -19,6 +20,9 @@ export default {
         return clienteAPI.patch(`/transactions/${id}`, transactionModify);
     },
     deleteTransaction(id) {
-        return clienteAPI.delete(`/transactions/${id}`);
+        return clienteAPI.delete(`/transactions/${id}`)
+        .then(() => {
+            store.commit("deleteTransaction", id);
+        });
     },
 };

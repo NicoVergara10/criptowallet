@@ -1,7 +1,8 @@
 <template>
     <div class="body">
         <div class="new">
-            <form action="#" method="post">
+            <div v-if="loading" class="loader"></div>
+            <form v-if="!loading" action="#" method="post">
                 <div class="criptos">
                     <div class="select">
                         <select id="standard-select" v-model="transactionModify.crypto_code" @change="getAgencies(transactionModify.crypto_code)">
@@ -22,9 +23,9 @@
                     @change="enableAmount()"
                     :disabled="selectAgenciesDisabled"
                     >
-                        <option value="" disabled selected hidden>Select agency</option>
+                        <option value="" disabled selected hidden>SELECCIONAR AGENCIA</option>
                         <option v-for="agency in agencies" :key="agency.agency" :value="agency">
-                            {{ agency.agency.toUpperCase() + " - Purchase price: " + agency.values.totalAsk }}
+                            {{ agency.agency.toUpperCase() + " - PRECIO: " + agency.values.totalAsk }}
                         </option>
                     </select>
                     <i></i>
@@ -70,6 +71,7 @@
                 agencies: [],
                 selectAgenciesDisabled: true,
                 setAmountDisabled: true,
+                loading: false,
             }
         },
         computed:{
@@ -78,11 +80,15 @@
             }
         },
         mounted(){
+            this.loading = true;
+
             ClientApi.getTransactionsById(this.id)
             .then((response) => {
             this.transactionModify = response.data;
             }).catch(() => {
                 this.$toast.error("Error");
+            }).finally(() => {
+                this.loading = false;
             });
         },
         methods:{

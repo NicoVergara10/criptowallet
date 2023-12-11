@@ -40,7 +40,7 @@
                                     </span>
                                 </router-link>
                                 <span class="icon" 
-                                @click="deleteRow(transaction._id)" :key="table"
+                                @click="deleteRow(transaction._id)"
                                 >
                                     <ion-icon name="trash">
                                 </ion-icon></span>
@@ -54,39 +54,29 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import ClientApi from '@/services/ClientApi.js';
 import Navbar from "@/components/Navbar.vue";
 export default {
-    name: "history",
+    name: "History",
     components: { Navbar },
     data() {
         return {
             countTransaction: 0,
-            transactions: [],
             selectRow: null,
             view: true,
             loading: false,
         };
     },
     computed:{
+        ...mapGetters({
+            transactions: "getTransactions",
+        }),
         sortedTransactions() {
             return [...this.transactions].sort((a, b) => {
                 return new Date(b.datetime) - new Date(a.datetime);
             });
         },
-    },
-    mounted() {
-        this.loading = true;
-
-        ClientApi.getHistory(this.$store.state.idUser)
-        .then((response) => {
-            this.transactions = response.data;
-            this.countTransaction = this.transactions.length;
-        }).catch(() => { 
-            this.$toast.error("Error");
-        }).finally(() => {
-            this.loading = false;
-        });
     },
     methods: {
         edit(id){
@@ -98,21 +88,19 @@ export default {
             }
         },
         deleteRow(id){
-            if(this.selectRow !== id){
-                this.selectRow = id;
-                if(confirm("Está seguro que desea eliminar esta transacción?")) {
-                    ClientApi.deleteTransaction(this.selectRow)
-                    .then(() => {
-                        this.$toast.info("Eliminado con exito");
-                        this.$store.commit("insertTransactions");
-                    })
-                    .catch(() => {
-                        this.$toast.error("Error al Eliminar la Transacción");
-                    });
-                }
-            }else{
-                this.selectRow = null;
-            } 
+            this.loading = true;
+
+            if(confirm("Está seguro que desea eliminar esta transacción?")) {
+                ClientApi.deleteTransaction(id)
+                .then(() => {
+                    this.$toast.info("Eliminado con exito");
+                })
+                .catch(() => {
+                    this.$toast.error("Error al Eliminar la Transacción");
+                }).finally(() => {
+                    this.loading = false;
+                });
+            }
         },
         nameCriptos(crypto_code) {
             if (crypto_code == "btc")

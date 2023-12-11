@@ -89,7 +89,11 @@
                     ClientApi.newTransaction(this.buySale)
                     .then(() => {
                         this.$toast.info("Compra realizada con Éxito");
-                        this.$store.commit("insertTransactions");
+                        this.$store.commit("insertTransaction");
+                        this.buySale.crypto_code = "";
+                        this.buySale.crypto_amount = "";
+                        this.buySale.money = "";
+                        this.selectedAgency = "";
                     })
                     .catch(() => {this.$toast.error("Error al realizar la Compra");
                     })

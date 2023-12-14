@@ -94,15 +94,15 @@
         methods:{
             edit(){
                 this.transactionModify.datetime = new Date();
-                    ClientApi.editTransaction(this.id, this.transactionModify)
-                    .then(() => {
-                        this.$toast.info("Editado correctamente");
-                        this.$store.commit("insertTransactions");
-                        this.$router.push("/history");
-                    })
-                    .catch(() => {
-                        this.$toast.error("Error al Editar Transacción");
-                    });
+                ClientApi.editTransaction(this.id, this.transactionModify)
+                .then(() => {
+                    this.$toast.info("Editado correctamente");
+                    this.$store.commit("insertTransactions");
+                    this.$router.push("/history");
+                })
+                .catch(() => {
+                    this.$toast.error("Error al Editar Transacción");
+                });
             },
             cancel(){
                 this.$router.push("/history");

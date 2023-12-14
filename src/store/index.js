@@ -53,6 +53,12 @@ export default createStore({
     deleteTransaction(state, transactionId) {
       state.transactions = state.transactions.filter(transaction => transaction._id !== transactionId);
     },
+    updateTransaction(state, updatedTransaction) {
+      const index = state.transactions.findIndex(transaction => transaction._id === updatedTransaction._id);
+      if (index !== -1) {
+        state.transactions.splice(index, 1, updatedTransaction);
+      }
+    },
   },
   actions: {
   },

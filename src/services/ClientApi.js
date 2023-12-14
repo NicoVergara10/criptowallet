@@ -17,7 +17,11 @@ export default {
         return clienteAPI.post("/transactions", buySale);
     },
     editTransaction(id, transactionModify) {
-        return clienteAPI.patch(`/transactions/${id}`, transactionModify);
+        return clienteAPI.patch(`/transactions/${id}`, transactionModify)
+        .then(response => {
+            const updatedTransaction = response.data;
+            store.commit("updateTransaction", updatedTransaction);
+        });
     },
     deleteTransaction(id) {
         return clienteAPI.delete(`/transactions/${id}`)

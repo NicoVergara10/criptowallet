@@ -4,7 +4,7 @@
         <div class="history">
             <div class="container">
                 <div v-if="loading" class="loader"></div>
-                <table>
+                <table v-if="!loading">
                     <thead>
                         <tr>
                             <th>CRIPTOMONEDA</th>
